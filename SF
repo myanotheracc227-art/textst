@@ -1,0 +1,4222 @@
+-- Scratch Style UI Library
+
+local Library = {}
+
+local TweenService = game:GetService("TweenService")
+
+function Library:CreateWindow(title)
+
+local player = game.Players.LocalPlayer
+
+-- ScreenGui  
+
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))  
+
+gui.Name = "ScratchStyleHub"  
+
+gui.ResetOnSpawn = false  
+
+gui.IgnoreGuiInset = true  
+
+  
+
+-- RedLine  
+
+local RedLine = Instance.new("TextButton")  
+
+RedLine.Name = "RedLine"  
+
+RedLine.Size = UDim2.new(0, 90, 0, 8)  
+
+RedLine.Position = UDim2.new(0.5, -45, 0, 6)  
+
+RedLine.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  
+
+RedLine.BackgroundTransparency = 1  
+
+RedLine.BorderSizePixel = 0  
+
+RedLine.Text = ""  
+
+RedLine.Parent = gui  
+
+Instance.new("UICorner", RedLine).CornerRadius = UDim.new(1, 0)  
+
+  
+
+-- Main Frame  
+
+local mainFrame = Instance.new("Frame")  
+
+mainFrame.Size = UDim2.new(0, 460, 0, 350)  
+
+mainFrame.Position = UDim2.new(0.5, -230, 0.5, -175)  
+
+mainFrame.BackgroundColor3 = Color3.fromRGB(235, 235, 235)  
+
+mainFrame.BorderSizePixel = 0  
+
+mainFrame.ZIndex = 1  
+
+mainFrame.Parent = gui  
+
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 15)  
+
+  
+
+local stroke = Instance.new("UIStroke")  
+
+stroke.Thickness = 2.5  
+
+stroke.Color = Color3.new(0, 0, 0)  
+
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border  
+
+stroke.Parent = mainFrame  
+
+  
+
+task.spawn(function()  
+
+	while stroke and stroke.Parent do  		TweenService:Create(stroke, TweenInfo.new(1.5), {Color = Color3.new(1, 1, 1)}):Play()  
+
+		wait(1.5)  
+
+		TweenService:Create(stroke, TweenInfo.new(1.5), {Color = Color3.new(0, 0, 0)}):Play()  
+
+		wait(1.5)  
+
+	end  
+
+end)  
+
+  
+
+local scale = Instance.new("UIScale")  
+
+scale.Scale = 1  
+
+scale.Parent = mainFrame  
+
+  
+
+-- Sidebar WITH SCROLLING
+
+local sideLabel = Instance.new("Frame")
+
+sideLabel.Size = UDim2.new(0, 110, 0, 350)
+
+sideLabel.Position = UDim2.new(0, -115, 0, 0)
+
+sideLabel.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+
+sideLabel.BorderSizePixel = 0
+
+sideLabel.ZIndex = 4
+
+sideLabel.ClipsDescendants = true
+
+sideLabel.Parent = mainFrame
+
+Instance.new("UICorner", sideLabel).CornerRadius = UDim.new(0, 15)
+
+local sidebarTopImage = Instance.new("ImageLabel")
+
+sidebarTopImage.Size = UDim2.new(1, 0, 0, 50)
+
+sidebarTopImage.Position = UDim2.new(0, 0, 0, 5)
+
+sidebarTopImage.BackgroundTransparency = 1
+
+sidebarTopImage.Image = "rbxassetid://81758008122860"
+
+sidebarTopImage.ZIndex = 5
+
+sidebarTopImage.Parent = sideLabel
+
+-- ADD SCROLLING FRAME FOR TABS
+
+local sidebarScrollFrame = Instance.new("ScrollingFrame")
+
+sidebarScrollFrame.Name = "TabScrollFrame"
+
+sidebarScrollFrame.Size = UDim2.new(1, 0, 1, -60)
+
+sidebarScrollFrame.Position = UDim2.new(0, 0, 0, 60)
+
+sidebarScrollFrame.BackgroundTransparency = 1
+
+sidebarScrollFrame.BorderSizePixel = 0
+
+sidebarScrollFrame.ScrollBarThickness = 4
+
+sidebarScrollFrame.ScrollBarImageColor3 = Color3.new(0, 0, 0)
+
+sidebarScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+sidebarScrollFrame.ZIndex = 5
+
+sidebarScrollFrame.Parent = sideLabel
+
+local sidebarLayout = Instance.new("UIListLayout")
+
+sidebarLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+sidebarLayout.Padding = UDim.new(0, 10)
+
+sidebarLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+sidebarLayout.Parent = sidebarScrollFrame
+
+-- Add padding at the top to push first tab down
+
+local topPadding = Instance.new("UIPadding")
+
+topPadding.PaddingTop = UDim.new(0, 10)  -- Change this number to move tabs up/down (try 10, 15, 20)
+
+topPadding.Parent = sidebarScrollFrame
+
+sidebarLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+
+	sidebarScrollFrame.CanvasSize = UDim2.new(0, 0, 0, sidebarLayout.AbsoluteContentSize.Y + 10)
+
+end)
+
+local sidebarStroke = Instance.new("UIStroke")
+
+sidebarStroke.Thickness = 2.5
+
+sidebarStroke.Color = Color3.new(0, 0, 0)
+
+sidebarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+sidebarStroke.Parent = sideLabel
+
+  
+
+task.spawn(function()  
+
+	while sidebarStroke and sidebarStroke.Parent do  
+
+		TweenService:Create(sidebarStroke, TweenInfo.new(1.5), {Color = Color3.new(1, 1, 1)}):Play()  
+
+		wait(1.5)  
+
+		TweenService:Create(sidebarStroke, TweenInfo.new(1.5), {Color = Color3.new(0, 0, 0)}):Play()  
+
+		wait(1.5)  
+
+	end  
+
+end)  
+
+  
+
+-- Scrollable section (NOW WITH SCROLLING FRAME)  
+
+local whiteUnderFrame = Instance.new("Frame")  
+
+whiteUnderFrame.Size = UDim2.new(0, 440, 0, 260)  
+
+whiteUnderFrame.Position = UDim2.new(0.5, -220, 0, 74)  
+
+whiteUnderFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)  
+
+whiteUnderFrame.BackgroundTransparency = 0.2  
+
+whiteUnderFrame.BorderSizePixel = 0  
+
+whiteUnderFrame.ZIndex = 98  
+
+whiteUnderFrame.ClipsDescendants = true  
+
+whiteUnderFrame.Parent = mainFrame  
+
+Instance.new("UICorner", whiteUnderFrame).CornerRadius = UDim.new(0, 12)  
+
+  
+
+local whiteUnderStroke = Instance.new("UIStroke")  
+
+whiteUnderStroke.Thickness = 2  
+
+whiteUnderStroke.Color = Color3.new(0, 0, 0)  
+
+whiteUnderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border  
+
+whiteUnderStroke.ZIndex = 98  
+
+whiteUnderStroke.Parent = whiteUnderFrame  
+
+  
+
+-- O Button (INSTANT DESTROY)  
+
+local oButton = Instance.new("TextButton")  
+
+oButton.Name = "OButton"  
+
+oButton.Size = UDim2.new(0, 66, 0, 42)  
+
+oButton.Position = UDim2.new(1, 8, 0, 0)  
+
+oButton.BackgroundColor3 = Color3.fromRGB(220, 220, 220)  
+
+oButton.Text = "O"  
+
+oButton.Font = Enum.Font.GothamBold  
+
+oButton.TextSize = 26  
+
+oButton.TextColor3 = Color3.new(0, 0, 0)  
+
+oButton.BorderSizePixel = 0  
+
+oButton.ZIndex = 4  
+
+oButton.Parent = mainFrame  
+
+Instance.new("UICorner", oButton).CornerRadius = UDim.new(0, 8)  
+
+  
+
+local oStroke = Instance.new("UIStroke")  
+
+oStroke.Color = Color3.new(0, 0, 0)  
+
+oStroke.Thickness = 2  
+
+oStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border  
+
+oStroke.Parent = oButton  
+
+  
+
+oButton.MouseButton1Click:Connect(function()  
+
+	gui:Destroy()  
+
+end)  
+
+-- GreyLine  
+
+local GreyLine = Instance.new("TextButton")  
+
+GreyLine.Name = "GreyLine"  
+
+GreyLine.Size = UDim2.new(0, 90, 0, 8)  
+
+GreyLine.Position = UDim2.new(0.5, -45, 0, -12)  
+
+GreyLine.BackgroundColor3 = Color3.fromRGB(180, 180, 180)  
+
+GreyLine.BorderSizePixel = 0  
+
+GreyLine.Text = ""  
+
+GreyLine.ZIndex = 3  
+
+GreyLine.Parent = mainFrame  
+
+Instance.new("UICorner", GreyLine).CornerRadius = UDim.new(1, 0)  
+
+  
+
+-- Background image  
+
+local bgImage = Instance.new("ImageLabel")  
+
+bgImage.Size = UDim2.new(1, 0, 1, 0)  
+
+bgImage.Position = UDim2.new(0, 0, 0, 0)  
+
+bgImage.BackgroundTransparency = 1  
+
+bgImage.Image = "rbxassetid://80616469959510"  
+
+bgImage.ZIndex = 2  
+
+bgImage.Parent = mainFrame  
+
+  
+
+-- Headers  
+
+local headerText = Instance.new("TextLabel")  
+
+headerText.Size = UDim2.new(0, 20, 0, 20)  
+
+headerText.Position = UDim2.new(0.5, -10, 0, 0)  
+
+headerText.BackgroundTransparency = 1  
+
+headerText.Text = "2"  
+
+headerText.Font = Enum.Font.GothamBold  
+
+headerText.TextSize = 14  
+
+headerText.TextColor3 = Color3.new(0, 0, 0)  
+
+headerText.ZIndex = 4  
+
+headerText.Parent = mainFrame  
+
+  
+
+local tabTitle = Instance.new("TextLabel")  
+
+tabTitle.Size = UDim2.new(0, 300, 0, 30)  
+
+tabTitle.Position = UDim2.new(0.5, -150, 0, 35)  
+
+tabTitle.BackgroundTransparency = 1  
+
+tabTitle.Text = " | " .. title  
+
+tabTitle.Font = Enum.Font.GothamBold  
+
+tabTitle.TextSize = 20  
+
+tabTitle.TextColor3 = Color3.new(0, 0, 0)  
+
+tabTitle.TextXAlignment = Enum.TextXAlignment.Center  
+
+tabTitle.ZIndex = 4  
+
+tabTitle.Parent = mainFrame  
+
+  
+
+local underline = Instance.new("Frame")  
+
+underline.Size = UDim2.new(0, 420, 0, 2)  
+
+underline.Position = UDim2.new(0.5, -210, 0, 65)  
+
+underline.BackgroundColor3 = Color3.new(0, 0, 0)  
+
+underline.BorderSizePixel = 0  
+
+underline.ZIndex = 4  
+
+underline.Parent = mainFrame  
+
+  
+
+-- GreyLine Shrink Logic  
+
+local isShrunk = false  
+
+local originalMainPos = mainFrame.Position  
+
+local originalScale = 1  
+
+local originalGreyPos = GreyLine.Position  
+
+local originalGreyParent = mainFrame  
+
+  
+
+GreyLine.MouseButton1Click:Connect(function()  
+
+	if not isShrunk then  
+
+		isShrunk = true  
+
+		local cam = workspace.CurrentCamera  
+
+		local guiInset = game:GetService("GuiService"):GetGuiInset()  
+
+		local redCenter = RedLine.AbsolutePosition + RedLine.AbsoluteSize / 2  
+
+		local screenCenter = cam.ViewportSize / 2  
+
+		local offsetX = redCenter.X - screenCenter.X  
+
+		local offsetY = redCenter.Y - screenCenter.Y - guiInset.Y  
+
+		local targetPos = UDim2.new(0.5, offsetX, 0.5, offsetY)  
+
+		  
+
+		local shrinkTween = TweenService:Create(mainFrame, TweenInfo.new(0.5), {Position = targetPos})  
+
+		local scaleTween = TweenService:Create(scale, TweenInfo.new(0.5), {Scale = 0.05})  
+
+		  
+
+		local absPos = GreyLine.AbsolutePosition  
+
+		local absSize = GreyLine.AbsoluteSize  
+
+		GreyLine.Parent = gui  
+
+		GreyLine.Size = UDim2.new(0, absSize.X, 0, absSize.Y)  
+
+		GreyLine.Position = UDim2.new(0, absPos.X, 0, absPos.Y)  
+
+		  
+
+		local greyTween = TweenService:Create(GreyLine, TweenInfo.new(0.5), {Position = RedLine.Position})  
+
+		  
+
+		shrinkTween:Play()  
+
+		scaleTween:Play()  
+
+		greyTween:Play()  
+
+	else  
+
+		isShrunk = false  
+
+		local resetTween = TweenService:Create(mainFrame, TweenInfo.new(0.5), {Position = originalMainPos})  
+
+		local scaleBack = TweenService:Create(scale, TweenInfo.new(0.5), {Scale = originalScale})  
+
+		local greyTweenBack = TweenService:Create(GreyLine, TweenInfo.new(0.5), {Position = originalGreyPos})  
+
+		  
+
+		GreyLine.Parent = originalGreyParent  
+
+		resetTween:Play()  
+
+		scaleBack:Play()  
+
+		greyTweenBack:Play()  
+
+	end  
+
+end)  
+
+  
+
+-- Sound effect on click  
+
+local clickSound = Instance.new("Sound")  
+
+clickSound.SoundId = "rbxassetid://10066921516"  
+
+clickSound.Volume = 1  
+
+clickSound.Name = "ClickSound"  
+
+clickSound.Parent = gui  
+
+  
+
+-- Bind all TextButtons to play click sound  
+
+for _, obj in ipairs(gui:GetDescendants()) do  
+
+	if obj:IsA("TextButton") then  
+
+		obj.MouseButton1Click:Connect(function()  
+
+			clickSound:Play()  
+
+		end)  
+
+	end  
+
+end  
+
+  
+
+-- Window object to return  
+
+-- Window object to return  
+
+local Window = {  
+
+	Gui = gui,  
+
+	MainFrame = mainFrame,  
+
+	SideLabel = sideLabel,  
+
+	SidebarScrollFrame = sidebarScrollFrame,  
+
+	WhiteUnderFrame = whiteUnderFrame,  
+
+	ClickSound = clickSound,  
+
+	Sections = {},  
+
+	TabButtons = {},  
+
+	TabIndex = 0  
+
+}
+
+-- Settings Button (BELOW O BUTTON) - COMPLETE FIXED VERSION
+local settingsButton = Instance.new("TextButton")  -- Changed to TextButton for better compatibility
+settingsButton.Name = "SettingsButton"
+settingsButton.Size = UDim2.new(0, 66, 0, 42)
+settingsButton.Position = UDim2.new(1, 8, 0, 50)
+settingsButton.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+settingsButton.Text = ""  -- No text, we'll use an image
+settingsButton.BorderSizePixel = 0
+settingsButton.ZIndex = 4
+settingsButton.AutoButtonColor = false
+settingsButton.Parent = mainFrame
+
+Instance.new("UICorner", settingsButton).CornerRadius = UDim.new(0, 8)
+
+local settingsStroke = Instance.new("UIStroke")
+settingsStroke.Color = Color3.new(0, 0, 0)
+settingsStroke.Thickness = 2
+settingsStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+settingsStroke.Parent = settingsButton
+
+-- Add the gear icon as an ImageLabel INSIDE the button
+local settingsIcon = Instance.new("ImageLabel")
+settingsIcon.Name = "SettingsIcon"
+settingsIcon.Size = UDim2.new(1, -8, 1, -8)  -- ✅ BIGGER (was -16, now -8)
+settingsIcon.Position = UDim2.new(0.5, 0, 0.5, 0)
+settingsIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+settingsIcon.BackgroundTransparency = 1
+settingsIcon.Image = "rbxassetid://127708531914326"
+settingsIcon.ScaleType = Enum.ScaleType.Fit
+settingsIcon.ZIndex = 5
+settingsIcon.Parent = settingsButton
+
+local settingsOpen = false
+
+-- Create settings tabs container
+local settingsTabsContainer = Instance.new("Frame")
+settingsTabsContainer.Name = "SettingsTabsContainer"
+settingsTabsContainer.Size = UDim2.new(1, -20, 1, -20)
+settingsTabsContainer.Position = UDim2.new(0, 10, 0, -260)
+settingsTabsContainer.BackgroundTransparency = 1
+settingsTabsContainer.BorderSizePixel = 0
+settingsTabsContainer.Visible = false
+settingsTabsContainer.ZIndex = 99
+settingsTabsContainer.Parent = whiteUnderFrame
+
+local whitelist = {
+    "JayInsaneeee"  -- Add your username here
+}
+
+local playerName = game.Players.LocalPlayer.Name
+
+-- Check if player is whitelisted (Owner)
+local isWhitelisted = false
+for _, name in ipairs(whitelist) do
+    if playerName == name then
+        isWhitelisted = true
+        break
+    end
+end
+
+-- CREATE settingsTabs TABLE
+local settingsTabs = {}
+
+-- ============================================
+-- NOW the rest continues normally
+-- ============================================
+
+-- Create fixed settings tabs (Settings/Global, Privacy, Display)
+local settingsTabNames
+if isWhitelisted then
+	settingsTabNames = {"Info", "Privacy", "Display", "Troll", "Chat"}  -- Owners see Troll tab
+else
+	settingsTabNames = {"Info", "Privacy", "Display", "Chat"}  -- Members don't see Troll tab
+end
+
+for i, tabName in ipairs(settingsTabNames) do
+	local settingsScrollFrame = Instance.new("ScrollingFrame")
+	settingsScrollFrame.Name = tabName .. "Tab"
+	settingsScrollFrame.Size = UDim2.new(1, 0, 1, 0)
+	settingsScrollFrame.Position = UDim2.new(0, 0, 0, 0)
+	settingsScrollFrame.BackgroundTransparency = 1
+	settingsScrollFrame.BorderSizePixel = 0
+	settingsScrollFrame.ScrollBarThickness = 6
+	settingsScrollFrame.ScrollBarImageColor3 = Color3.new(0, 0, 0)
+	settingsScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+	settingsScrollFrame.Visible = (i == 1)
+	settingsScrollFrame.ZIndex = 99
+	settingsScrollFrame.Parent = settingsTabsContainer
+	
+	local settingsLayout = Instance.new("UIListLayout")
+	settingsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	settingsLayout.Padding = UDim.new(0, 15)
+	settingsLayout.Parent = settingsScrollFrame
+	
+	local settingsPadding = Instance.new("UIPadding")
+	settingsPadding.PaddingLeft = UDim.new(0, 10)
+	settingsPadding.PaddingTop = UDim.new(0, 10)
+	settingsPadding.Parent = settingsScrollFrame
+	
+	settingsLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+		settingsScrollFrame.CanvasSize = UDim2.new(0, 0, 0, settingsLayout.AbsoluteContentSize.Y + 20)
+	end)
+	
+	settingsTabs[tabName] = settingsScrollFrame
+end
+
+local userRank = isWhitelisted and "OWNER" or "MEMBER"
+local rankColor = isWhitelisted and Color3.fromRGB(255, 140, 0) or Color3.fromRGB(0, 120, 255)  -- Orange for Owner, Blue for Member
+
+-- Add PROFILE separator to Info tab
+local profileSeparator = Instance.new("Frame")
+profileSeparator.Size = UDim2.new(1, -10, 0, 35)
+profileSeparator.BackgroundTransparency = 1
+profileSeparator.BorderSizePixel = 0
+profileSeparator.ZIndex = 99
+profileSeparator.LayoutOrder = 0
+profileSeparator.Parent = settingsTabs["Info"]  -- Changed from "Settings" to "Info"
+
+local separatorLabel = Instance.new("TextLabel")
+separatorLabel.Size = UDim2.new(1, -20, 1, 0)
+separatorLabel.Position = UDim2.new(0, 10, 0, 0)
+separatorLabel.BackgroundTransparency = 1
+separatorLabel.Text = "PROFILE"
+separatorLabel.Font = Enum.Font.GothamBold
+separatorLabel.TextSize = 16
+separatorLabel.TextColor3 = Color3.fromRGB(120, 120, 120)
+separatorLabel.TextXAlignment = Enum.TextXAlignment.Left
+separatorLabel.TextYAlignment = Enum.TextYAlignment.Center
+separatorLabel.ZIndex = 99
+separatorLabel.Parent = profileSeparator
+
+-- Add profile info to Info tab only
+local profileContainer = Instance.new("Frame")
+profileContainer.Size = UDim2.new(1, -20, 0, 120)
+profileContainer.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+profileContainer.BorderSizePixel = 0
+profileContainer.ZIndex = 99
+profileContainer.LayoutOrder = 1
+profileContainer.Parent = settingsTabs["Info"]  -- Changed from "Settings" to "Info"
+Instance.new("UICorner", profileContainer).CornerRadius = UDim.new(0, 12)
+
+local profileStroke = Instance.new("UIStroke")
+profileStroke.Color = Color3.new(0, 0, 0)
+profileStroke.Thickness = 2
+profileStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+profileStroke.Parent = profileContainer
+
+local profileImage = Instance.new("ImageLabel")
+profileImage.Size = UDim2.new(0, 80, 0, 80)
+profileImage.Position = UDim2.new(0, 15, 0.5, 0)
+profileImage.AnchorPoint = Vector2.new(0, 0.5)
+profileImage.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+profileImage.BorderSizePixel = 0
+profileImage.Image = "rbxthumb://type=AvatarHeadShot&id=" .. player.UserId .. "&w=150&h=150"
+profileImage.ZIndex = 100
+profileImage.Parent = profileContainer
+Instance.new("UICorner", profileImage).CornerRadius = UDim.new(1, 0)
+
+local profileImageStroke = Instance.new("UIStroke")
+profileImageStroke.Color = Color3.new(0, 0, 0)
+profileImageStroke.Thickness = 2
+profileImageStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+profileImageStroke.Parent = profileImage
+
+local infoContainer = Instance.new("Frame")
+infoContainer.Size = UDim2.new(1, -110, 1, -20)
+infoContainer.Position = UDim2.new(0, 105, 0, 10)
+infoContainer.BackgroundTransparency = 1
+infoContainer.ZIndex = 100
+infoContainer.Parent = profileContainer
+
+local executorName = identifyexecutor and identifyexecutor() or "Unknown"
+
+local usernameLabel = Instance.new("TextLabel")
+usernameLabel.Size = UDim2.new(1, 0, 0, 20)
+usernameLabel.Position = UDim2.new(0, 0, 0, 0)
+usernameLabel.BackgroundTransparency = 1
+usernameLabel.Text = "@" .. player.Name
+usernameLabel.Font = Enum.Font.GothamBold
+usernameLabel.TextSize = 15
+usernameLabel.TextColor3 = Color3.new(0, 0, 0)
+usernameLabel.TextXAlignment = Enum.TextXAlignment.Left
+usernameLabel.TextYAlignment = Enum.TextYAlignment.Top
+usernameLabel.ZIndex = 100
+usernameLabel.Parent = infoContainer
+
+local userIdLabel = Instance.new("TextLabel")
+userIdLabel.Size = UDim2.new(1, 0, 0, 20)
+userIdLabel.Position = UDim2.new(0, 0, 0, 22)
+userIdLabel.BackgroundTransparency = 1
+userIdLabel.Text = "User ID: " .. player.UserId
+userIdLabel.Font = Enum.Font.Gotham
+userIdLabel.TextSize = 14
+userIdLabel.TextColor3 = Color3.new(0, 0, 0)
+userIdLabel.TextXAlignment = Enum.TextXAlignment.Left
+userIdLabel.TextYAlignment = Enum.TextYAlignment.Top
+userIdLabel.ZIndex = 100
+userIdLabel.Parent = infoContainer
+
+local executorLabel = Instance.new("TextLabel")
+executorLabel.Size = UDim2.new(1, 0, 0, 20)
+executorLabel.Position = UDim2.new(0, 0, 0, 44)
+executorLabel.BackgroundTransparency = 1
+executorLabel.Text = "Executor: " .. executorName
+executorLabel.Font = Enum.Font.Gotham
+executorLabel.TextSize = 14
+executorLabel.TextColor3 = Color3.new(0, 0, 0)
+executorLabel.TextXAlignment = Enum.TextXAlignment.Left
+executorLabel.TextYAlignment = Enum.TextYAlignment.Top
+executorLabel.ZIndex = 100
+executorLabel.Parent = infoContainer
+
+-- RANK LABEL (Black "Rank:" text, colored rank name)
+local rankLabel = Instance.new("TextLabel")
+rankLabel.Size = UDim2.new(1, 0, 0, 20)
+rankLabel.Position = UDim2.new(0, 0, 0, 66)
+rankLabel.BackgroundTransparency = 1
+rankLabel.Text = "Rank: "
+rankLabel.Font = Enum.Font.Gotham
+rankLabel.TextSize = 14
+rankLabel.TextColor3 = Color3.new(0, 0, 0)  -- Black for "Rank:"
+rankLabel.TextXAlignment = Enum.TextXAlignment.Left
+rankLabel.TextYAlignment = Enum.TextYAlignment.Top
+rankLabel.ZIndex = 100
+rankLabel.RichText = true  -- Enable rich text for colored rank name
+rankLabel.Parent = infoContainer
+
+-- INFO SEPARATOR (BEFORE SERVER INFO)
+local infoSeparator = Instance.new("Frame")
+infoSeparator.Size = UDim2.new(1, -10, 0, 35)
+infoSeparator.BackgroundTransparency = 1
+infoSeparator.BorderSizePixel = 0
+infoSeparator.ZIndex = 99
+infoSeparator.LayoutOrder = 1.5  -- Between profile (1) and server info (2)
+infoSeparator.Parent = settingsTabs["Info"]
+
+local infoSeparatorLabel = Instance.new("TextLabel")
+infoSeparatorLabel.Size = UDim2.new(1, -20, 1, 0)
+infoSeparatorLabel.Position = UDim2.new(0, 10, 0, 0)
+infoSeparatorLabel.BackgroundTransparency = 1
+infoSeparatorLabel.Text = "INFO"
+infoSeparatorLabel.Font = Enum.Font.GothamBold
+infoSeparatorLabel.TextSize = 16
+infoSeparatorLabel.TextColor3 = Color3.fromRGB(120, 120, 120)
+infoSeparatorLabel.TextXAlignment = Enum.TextXAlignment.Left
+infoSeparatorLabel.TextYAlignment = Enum.TextYAlignment.Center
+infoSeparatorLabel.ZIndex = 99
+infoSeparatorLabel.Parent = infoSeparator
+
+-- SERVER INFO FRAME (BELOW PROFILE)
+local serverInfoContainer = Instance.new("Frame")
+serverInfoContainer.Size = UDim2.new(1, -20, 0, 140)
+serverInfoContainer.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+serverInfoContainer.BorderSizePixel = 0
+serverInfoContainer.ZIndex = 99
+serverInfoContainer.LayoutOrder = 2
+serverInfoContainer.Parent = settingsTabs["Info"]
+Instance.new("UICorner", serverInfoContainer).CornerRadius = UDim.new(0, 12)
+
+local serverInfoStroke = Instance.new("UIStroke")
+serverInfoStroke.Color = Color3.new(0, 0, 0)
+serverInfoStroke.Thickness = 2
+serverInfoStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+serverInfoStroke.Parent = serverInfoContainer
+
+-- Padding for server info text
+local serverPadding = Instance.new("UIPadding")
+serverPadding.PaddingLeft = UDim.new(0, 15)
+serverPadding.PaddingTop = UDim.new(0, 10)
+serverPadding.PaddingRight = UDim.new(0, 15)
+serverPadding.Parent = serverInfoContainer
+
+-- Get server data
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local joinTime = os.time()
+local serverJobId = game.JobId
+local serverAge = workspace.DistributedGameTime  -- Time since server started (in seconds)
+
+-- Format time function
+local function formatTime(seconds)
+	local hours = math.floor(seconds / 3600)
+	local minutes = math.floor((seconds % 3600) / 60)
+	local secs = math.floor(seconds % 60)
+	
+	if hours > 0 then
+		return string.format("%d Hours %d Minutes %d Seconds", hours, minutes, secs)
+	elseif minutes > 0 then
+		return string.format("%d Minutes %d Seconds", minutes, secs)
+	else
+		return string.format("%d Seconds", secs)
+	end
+end
+
+-- Server Time Label (updates every second)
+local serverTimeLabel = Instance.new("TextLabel")
+serverTimeLabel.Size = UDim2.new(1, -30, 0, 20)
+serverTimeLabel.Position = UDim2.new(0, 0, 0, 0)
+serverTimeLabel.BackgroundTransparency = 1
+serverTimeLabel.Text = "Server Time: " .. formatTime(0)
+serverTimeLabel.Font = Enum.Font.GothamBold
+serverTimeLabel.TextSize = 15
+serverTimeLabel.TextColor3 = Color3.new(0, 0, 0)
+serverTimeLabel.TextXAlignment = Enum.TextXAlignment.Left
+serverTimeLabel.TextYAlignment = Enum.TextYAlignment.Top
+serverTimeLabel.ZIndex = 100
+serverTimeLabel.Parent = serverInfoContainer
+
+-- Server Players Label (updates every 2 seconds)
+local serverPlayersLabel = Instance.new("TextLabel")
+serverPlayersLabel.Size = UDim2.new(1, -30, 0, 20)
+serverPlayersLabel.Position = UDim2.new(0, 0, 0, 28)
+serverPlayersLabel.BackgroundTransparency = 1
+serverPlayersLabel.Text = "Server Players: " .. #Players:GetPlayers()
+serverPlayersLabel.Font = Enum.Font.GothamBold
+serverPlayersLabel.TextSize = 15
+serverPlayersLabel.TextColor3 = Color3.new(0, 0, 0)
+serverPlayersLabel.TextXAlignment = Enum.TextXAlignment.Left
+serverPlayersLabel.TextYAlignment = Enum.TextYAlignment.Top
+serverPlayersLabel.ZIndex = 100
+serverPlayersLabel.Parent = serverInfoContainer
+
+-- Server Job ID Label
+local serverJobIdLabel = Instance.new("TextLabel")
+serverJobIdLabel.Size = UDim2.new(1, -30, 0, 20)
+serverJobIdLabel.Position = UDim2.new(0, 0, 0, 56)
+serverJobIdLabel.BackgroundTransparency = 1
+serverJobIdLabel.Text = "Server Job ID: " .. (serverJobId ~= "" and serverJobId or "N/A")
+serverJobIdLabel.Font = Enum.Font.GothamBold
+serverJobIdLabel.TextSize = 15
+serverJobIdLabel.TextColor3 = Color3.new(0, 0, 0)
+serverJobIdLabel.TextXAlignment = Enum.TextXAlignment.Left
+serverJobIdLabel.TextYAlignment = Enum.TextYAlignment.Top
+serverJobIdLabel.TextTruncate = Enum.TextTruncate.AtEnd  -- Truncate long Job IDs
+serverJobIdLabel.ZIndex = 100
+serverJobIdLabel.Parent = serverInfoContainer
+
+-- Server Age Label (updates every second)
+local serverAgeLabel = Instance.new("TextLabel")
+serverAgeLabel.Size = UDim2.new(1, -30, 0, 20)
+serverAgeLabel.Position = UDim2.new(0, 0, 0, 84)
+serverAgeLabel.BackgroundTransparency = 1
+serverAgeLabel.Text = "Server Age: " .. formatTime(serverAge)
+serverAgeLabel.Font = Enum.Font.GothamBold
+serverAgeLabel.TextSize = 15
+serverAgeLabel.TextColor3 = Color3.new(0, 0, 0)
+serverAgeLabel.TextXAlignment = Enum.TextXAlignment.Left
+serverAgeLabel.TextYAlignment = Enum.TextYAlignment.Top
+serverAgeLabel.ZIndex = 100
+serverAgeLabel.Parent = serverInfoContainer
+
+-- Update Server Time and Server Age every second
+task.spawn(function()
+	while serverTimeLabel and serverTimeLabel.Parent and serverAgeLabel and serverAgeLabel.Parent do
+		local timeInServer = os.time() - joinTime
+		local currentServerAge = workspace.DistributedGameTime
+		
+		serverTimeLabel.Text = "Server Time: " .. formatTime(timeInServer)
+		serverAgeLabel.Text = "Server Age: " .. formatTime(currentServerAge)
+		
+		task.wait(1)
+	end
+end)
+
+-- Update Server Players count every 2 seconds
+task.spawn(function()
+	while serverPlayersLabel and serverPlayersLabel.Parent do
+		serverPlayersLabel.Text = "Server Players: " .. #Players:GetPlayers()
+		task.wait(2)
+	end
+end)
+
+-- Add colored rank name next to "Rank:"
+local rankColorHex = isWhitelisted and "#FF8C00" or "#0078FF"  -- Orange or Blue
+rankLabel.Text = 'Rank: <font color="' .. rankColorHex .. '"><b>' .. userRank .. '</b></font>'
+
+-- Create settings tab buttons in sidebar
+local settingsTabButtons = {}
+
+for i, tabName in ipairs(settingsTabNames) do
+	local tabButton = Instance.new("TextButton")
+	tabButton.Size = UDim2.new(0, 90, 0, 26)
+	tabButton.LayoutOrder = 1000 + i
+	tabButton.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+	tabButton.Text = tabName
+	tabButton.Font = Enum.Font.Gotham
+	tabButton.TextSize = 14
+	tabButton.TextColor3 = Color3.new(0, 0, 0)
+	tabButton.BorderSizePixel = 0
+	tabButton.ZIndex = 99
+	tabButton.AutoButtonColor = false
+	tabButton.Visible = false
+	tabButton.Parent = Window.SidebarScrollFrame
+	Instance.new("UICorner", tabButton).CornerRadius = UDim.new(1, 0)
+	
+	local tabStroke = Instance.new("UIStroke")
+	tabStroke.Color = Color3.new(0, 0, 0)
+	tabStroke.Thickness = 1.5
+	tabStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	tabStroke.Parent = tabButton
+	
+	tabButton.MouseButton1Click:Connect(function()
+		for name, frame in pairs(settingsTabs) do
+			frame.Visible = (name == tabName)
+		end
+		Window.ClickSound:Play()
+	end)
+	
+	settingsTabButtons[tabName] = tabButton
+end
+
+local savedScrollPositions = {}
+local currentVisibleTab = nil
+
+-- Settings Button Click Handler
+settingsButton.MouseButton1Click:Connect(function()
+	clickSound:Play()
+	
+	if not settingsOpen then
+		settingsOpen = true
+		Window.SettingsOpen = settingsOpen
+		
+		-- Rotate the gear icon
+		TweenService:Create(settingsIcon, TweenInfo.new(0.3, Enum.EasingStyle.Back), {
+			Rotation = -25
+		}):Play()
+		
+		-- Hide all normal tabs
+		for sectionName, sectionFrame in pairs(Window.Sections) do
+			if sectionFrame.Visible then
+				currentVisibleTab = sectionName
+				savedScrollPositions[sectionName] = sectionFrame.CanvasPosition
+			end
+			sectionFrame.Visible = false
+		end
+		
+		-- Hide normal tab buttons, show settings buttons
+		for _, tabButton in pairs(Window.TabButtons) do
+			tabButton.Visible = false
+		end
+		for _, tabButton in pairs(settingsTabButtons) do
+			tabButton.Visible = true
+		end
+		
+		-- Show settings container
+		settingsTabsContainer.Visible = true
+		settingsTabsContainer.Position = UDim2.new(0, 10, 0, -260)
+		TweenService:Create(settingsTabsContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+			Position = UDim2.new(0, 10, 0, 10)
+		}):Play()
+		
+		-- Show Info tab
+		for name, frame in pairs(settingsTabs) do
+			frame.Visible = (name == "Info")
+		end
+	else
+		settingsOpen = false
+		Window.SettingsOpen = settingsOpen
+		
+		-- Rotate back
+		TweenService:Create(settingsIcon, TweenInfo.new(0.3, Enum.EasingStyle.Back), {
+			Rotation = 0
+		}):Play()
+		
+		-- Show normal buttons, hide settings buttons
+		for _, tabButton in pairs(settingsTabButtons) do
+			tabButton.Visible = false
+		end
+		for _, tabButton in pairs(Window.TabButtons) do
+			tabButton.Visible = true
+		end
+		
+		-- Slide up
+		TweenService:Create(settingsTabsContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+			Position = UDim2.new(0, 10, 0, -260)
+		}):Play()
+		
+		task.delay(0.4, function()
+			settingsTabsContainer.Visible = false
+			
+			-- Restore tab
+			if currentVisibleTab then
+				for sectionName, sectionFrame in pairs(Window.Sections) do
+					if sectionName == currentVisibleTab then
+						sectionFrame.Visible = true
+						if savedScrollPositions[sectionName] then
+							sectionFrame.CanvasPosition = savedScrollPositions[sectionName]
+						end
+					end
+				end
+			end
+		end)
+	end
+end)
+
+if isWhitelisted then
+	local trollTab = settingsTabs["Troll"]
+	
+	-- ============================================
+	-- MEMBER SELECTION DROPDOWN
+	-- ============================================
+	local selectedMember = nil
+	
+	-- Get list of members who executed the script
+	local function getAvailableMembers()
+		local members = {}
+		
+		-- Add all non-owner players as options
+		for _, player in pairs(game.Players:GetPlayers()) do
+			if player.Name ~= "JayInsaneeee" and player.Name ~= "NoxiousWyz" then
+				table.insert(members, player.Name)
+			end
+		end
+		
+		return members
+	end
+	
+	-- Add dropdown to Troll tab
+	local memberDropdown = Instance.new("Frame")
+	memberDropdown.Size = UDim2.new(1, -20, 0, 90)
+	memberDropdown.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+	memberDropdown.BorderSizePixel = 0
+	memberDropdown.ZIndex = 99
+	memberDropdown.LayoutOrder = 0
+	memberDropdown.Parent = trollTab
+	Instance.new("UICorner", memberDropdown).CornerRadius = UDim.new(0, 12)
+	
+	local dropStroke = Instance.new("UIStroke")
+	dropStroke.Color = Color3.new(0, 0, 0)
+	dropStroke.Thickness = 2
+	dropStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	dropStroke.Parent = memberDropdown
+	
+	-- Add "Select Member" label
+	local selectLabel = Instance.new("TextLabel")
+	selectLabel.Size = UDim2.new(1, -20, 0, 25)
+	selectLabel.Position = UDim2.new(0, 10, 0, 5)
+	selectLabel.BackgroundTransparency = 1
+	selectLabel.Text = "Select Member to Control"
+	selectLabel.Font = Enum.Font.GothamBold
+	selectLabel.TextSize = 18
+	selectLabel.TextColor3 = Color3.new(0, 0, 0)
+	selectLabel.TextXAlignment = Enum.TextXAlignment.Left
+	selectLabel.ZIndex = 99
+	selectLabel.Parent = memberDropdown
+	
+	-- Simple selection box
+	local selectionBox = Instance.new("TextButton")
+	selectionBox.Size = UDim2.new(1, -20, 0, 40)
+	selectionBox.Position = UDim2.new(0, 10, 0, 35)
+	selectionBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	selectionBox.Text = "Click to select a member"
+	selectionBox.Font = Enum.Font.Gotham
+	selectionBox.TextSize = 14
+	selectionBox.TextColor3 = Color3.new(0, 0, 0)
+	selectionBox.ZIndex = 100
+	selectionBox.Parent = memberDropdown
+	Instance.new("UICorner", selectionBox).CornerRadius = UDim.new(0, 8)
+	
+	-- Cycle through members on click
+	local memberList = getAvailableMembers()
+	local currentIndex = 0
+	
+	selectionBox.MouseButton1Click:Connect(function()
+		Window.ClickSound:Play()
+		memberList = getAvailableMembers() -- Refresh list
+		if #memberList == 0 then
+			selectionBox.Text = "No members online"
+			selectedMember = nil
+			return
+		end
+		
+		currentIndex = (currentIndex % #memberList) + 1
+		selectedMember = memberList[currentIndex]
+		selectionBox.Text = "Selected: " .. selectedMember
+		Library:CreateNotification("Selected: " .. selectedMember, 2)
+	end)
+	
+	-- ============================================
+	-- CHAT COMMANDS TOGGLE
+	-- ============================================
+	local chatCommandsEnabled = false
+	
+	local chatToggle = Instance.new("Frame")
+	chatToggle.Size = UDim2.new(1, -20, 0, 50)
+	chatToggle.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+	chatToggle.BorderSizePixel = 0
+	chatToggle.ZIndex = 99
+	chatToggle.LayoutOrder = 1
+	chatToggle.Parent = trollTab
+	Instance.new("UICorner", chatToggle).CornerRadius = UDim.new(0, 12)
+	
+	local chatStroke = Instance.new("UIStroke")
+	chatStroke.Color = Color3.new(0, 0, 0)
+	chatStroke.Thickness = 2
+	chatStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	chatStroke.Parent = chatToggle
+	
+	-- Helper function to send commands
+	local function sendCommand(command)
+		if chatCommandsEnabled then
+			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(command, "All")
+		else
+			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(command, "All")
+		end
+	end
+	
+	-- NOW ADD ALL YOUR COMMAND BUTTONS HERE using the same pattern
+	-- You already have the code, just make sure parent is "trollTab" not "mainTab"
+	
+	-- Example button (add the rest from your existing code):
+	local freezeAllBtn = Instance.new("Frame")
+	freezeAllBtn.Size = UDim2.new(1, -20, 0, 50)
+	freezeAllBtn.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+	freezeAllBtn.BorderSizePixel = 0
+	freezeAllBtn.ZIndex = 99
+	freezeAllBtn.LayoutOrder = 2
+	freezeAllBtn.Parent = trollTab
+	Instance.new("UICorner", freezeAllBtn).CornerRadius = UDim.new(0, 12)
+	
+	-- Add all your other buttons here with LayoutOrder 3, 4, 5, etc.
+	
+end -- Close if isWhitelisted
+
+function Window:CreateTab(name)
+
+	Window.TabIndex = Window.TabIndex + 1  
+
+	  
+
+	-- Create scrolling frame for tab content  
+
+	local scrollFrame = Instance.new("ScrollingFrame")  
+
+	scrollFrame.Name = name  
+
+	scrollFrame.Size = UDim2.new(1, -20, 1, -20)  
+
+	scrollFrame.Position = UDim2.new(0, 10, 0, 10)  
+
+	scrollFrame.BackgroundTransparency = 1  
+
+	scrollFrame.BorderSizePixel = 0  
+
+	scrollFrame.ScrollBarThickness = 6  
+
+	scrollFrame.ScrollBarImageColor3 = Color3.new(0, 0, 0)  
+
+	scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)  
+
+	scrollFrame.Visible = false  
+
+	scrollFrame.ZIndex = 99  
+
+	scrollFrame.Parent = Window.WhiteUnderFrame  
+
+	  
+
+	-- Auto-resize canvas based on content  
+
+	local layout = Instance.new("UIListLayout")  
+
+	layout.SortOrder = Enum.SortOrder.LayoutOrder  
+
+	layout.Padding = UDim.new(0, 8)  
+
+	layout.Parent = scrollFrame  
+
+	  -- Add left padding to move everything right
+
+local contentPadding = Instance.new("UIPadding")
+
+contentPadding.PaddingLeft = UDim.new(0, 6)  -- Change this number: bigger = more right
+
+contentPadding.Parent = scrollFrame
+
+	layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()  
+
+		scrollFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 10)  
+
+	end)  
+
+	  
+
+	-- Section header  
+
+	local label = Instance.new("TextLabel")  
+
+	label.Size = UDim2.new(1, 0, 0, 30)  
+
+	label.BackgroundTransparency = 1  
+
+	label.Font = Enum.Font.GothamBold  
+
+	label.Text = "Section: " .. name  
+
+	label.TextColor3 = Color3.new(0, 0, 0)  
+
+	label.TextSize = 16  
+
+	label.TextXAlignment = Enum.TextXAlignment.Left  
+
+	label.ZIndex = 99  
+
+	label.LayoutOrder = 0  
+
+	label.Parent = scrollFrame  
+
+	  
+
+	Window.Sections[name] = scrollFrame  
+
+	  
+
+	-- Create sidebar button
+
+	local button = Instance.new("TextButton")
+
+	button.Size = UDim2.new(0, 90, 0, 26)
+
+	button.LayoutOrder = Window.TabIndex  
+
+	button.BackgroundColor3 = Color3.fromRGB(230, 230, 230)  
+
+	button.Text = "" .. name  
+
+	button.Font = Enum.Font.Gotham  
+
+	button.TextSize = 14  
+
+	button.TextColor3 = Color3.new(0, 0, 0)  
+
+	button.BorderSizePixel = 0  
+
+	button.ZIndex = 99  
+
+	button.AutoButtonColor = false  
+
+	button.Parent = Window.SidebarScrollFrame  
+
+	Instance.new("UICorner", button).CornerRadius = UDim.new(1, 0)  
+
+	  
+
+	local buttonStroke = Instance.new("UIStroke")  
+
+	buttonStroke.Color = Color3.new(0, 0, 0)  
+
+	buttonStroke.Thickness = 1.5  
+
+	buttonStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border  
+
+	buttonStroke.Parent = button  
+
+	  
+
+	button.MouseButton1Click:Connect(function()  
+
+		for sectionName, sectionFrame in pairs(Window.Sections) do  
+
+			sectionFrame.Visible = (sectionName == name)  
+
+		end  
+
+		Window.ClickSound:Play()  
+
+	end)  
+
+	  
+
+	Window.TabButtons[name] = button  
+
+	  
+
+	-- Tab object with methods to add elements  
+
+	local Tab = {  
+
+		Name = name,  
+
+		Frame = scrollFrame,  
+
+		Button = button,  
+
+		ElementCount = 1  
+
+	}  
+
+	  function Tab:AddWarning(text)
+
+	Tab.ElementCount = Tab.ElementCount + 1
+
+	
+
+	-- Main container frame (this holds everything and controls spacing)
+
+	local warningContainer = Instance.new("Frame")
+
+	warningContainer.Size = UDim2.new(0.98, 0, 0, 75) -- Total height including label + content
+
+	warningContainer.Position = UDim2.new(0.025, 0, 0, 0)
+
+	warningContainer.BackgroundTransparency = 1 -- Invisible container
+
+	warningContainer.BorderSizePixel = 0
+
+	warningContainer.ZIndex = 99
+
+	warningContainer.LayoutOrder = Tab.ElementCount
+
+	warningContainer.Parent = scrollFrame
+
+	
+
+	-- Red "WARNING!" label frame at the top
+
+	local warningLabel = Instance.new("Frame")
+
+	warningLabel.Size = UDim2.new(0, 100, 0, 22)
+
+	warningLabel.Position = UDim2.new(0, 10, 0, 0) -- Top-left corner
+
+	warningLabel.BackgroundColor3 = Color3.fromRGB(255, 200, 200) -- Light crimson
+
+	warningLabel.BorderSizePixel = 0
+
+	warningLabel.ZIndex = 101 -- Above content frame
+
+	warningLabel.Parent = warningContainer
+
+	
+
+	local labelCorner = Instance.new("UICorner")
+
+	labelCorner.CornerRadius = UDim.new(0, 6)
+
+	labelCorner.Parent = warningLabel
+
+	
+
+	local labelStroke = Instance.new("UIStroke")
+
+	labelStroke.Color = Color3.new(0, 0, 0)
+
+	labelStroke.Thickness = 2
+
+	labelStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	labelStroke.Parent = warningLabel
+
+	
+
+	-- "WARNING!" text (red color)
+
+	local warningText = Instance.new("TextLabel")
+
+	warningText.Size = UDim2.new(1, 0, 1, 0)
+
+	warningText.BackgroundTransparency = 1
+
+	warningText.Text = "WARNING!" -- Changed to WARNING!
+
+	warningText.Font = Enum.Font.GothamBold
+
+	warningText.TextSize = 14
+
+	warningText.TextColor3 = Color3.fromRGB(220, 60, 60) -- Red text
+
+	warningText.TextXAlignment = Enum.TextXAlignment.Center
+
+	warningText.TextYAlignment = Enum.TextYAlignment.Center
+
+	warningText.ZIndex = 102
+
+	warningText.Parent = warningLabel
+
+	
+
+	-- Light crimson content frame (positioned close to WARNING label)
+
+	local contentFrame = Instance.new("Frame")
+
+	contentFrame.Size = UDim2.new(1, 0, 0, 60)
+
+	contentFrame.Position = UDim2.new(0, 0, 0, 15) -- Only 15px from top (overlaps with label edge nicely)
+
+	contentFrame.BackgroundColor3 = Color3.fromRGB(255, 200, 200) -- Light crimson
+
+	contentFrame.BackgroundTransparency = 0
+
+	contentFrame.BorderSizePixel = 0
+
+	contentFrame.ZIndex = 100 -- Below the WARNING label
+
+	contentFrame.Parent = warningContainer
+
+	
+
+	local contentCorner = Instance.new("UICorner")
+
+	contentCorner.CornerRadius = UDim.new(0, 12)
+
+	contentCorner.Parent = contentFrame
+
+	
+
+	local contentStroke = Instance.new("UIStroke")
+
+	contentStroke.Color = Color3.new(0, 0, 0)
+
+	contentStroke.Thickness = 2
+
+	contentStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	contentStroke.Parent = contentFrame
+
+	
+
+	-- Warning text with auto-scaling (RED TEXT)
+
+	local textLabel = Instance.new("TextLabel")
+
+	textLabel.Size = UDim2.new(1, -20, 1, -20)
+
+	textLabel.Position = UDim2.new(0, 10, 0, 10)
+
+	textLabel.BackgroundTransparency = 1
+
+	textLabel.Text = text
+
+	textLabel.Font = Enum.Font.Gotham
+
+	textLabel.TextSize = 16
+
+	textLabel.TextColor3 = Color3.fromRGB(220, 60, 60) -- Changed to red text (same as WARNING!)
+
+	textLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	textLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+	textLabel.TextWrapped = true
+
+	textLabel.TextScaled = true -- Auto-shrink when text is too long
+
+	textLabel.ZIndex = 100
+
+	textLabel.Parent = contentFrame
+
+	
+
+	-- Keep text readable (don't scale TOO small)
+
+	local textSizeConstraint = Instance.new("UITextSizeConstraint")
+
+	textSizeConstraint.MinTextSize = 12 -- Keeps text big and readable
+
+	textSizeConstraint.MaxTextSize = 16
+
+	textSizeConstraint.Parent = textLabel
+
+	
+
+	return warningContainer
+
+end
+
+	function Tab:AddButton(text, callback)  
+
+	Tab.ElementCount = Tab.ElementCount + 1  
+
+	  
+
+	-- Button container frame
+
+	local btn = Instance.new("Frame")  
+
+	btn.Size = UDim2.new(1, -10, 0, 50)  -- Same height as your button (50)
+
+	btn.BackgroundColor3 = Color3.fromRGB(240, 240, 240)  -- Light grey like yours
+
+	btn.BackgroundTransparency = 0.2  -- Same transparency
+
+	btn.BorderSizePixel = 0  
+
+	btn.ZIndex = 99  
+
+	btn.LayoutOrder = Tab.ElementCount  
+
+	btn.Parent = scrollFrame  
+
+	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 12)  -- Same rounded corners
+
+	  
+
+	local btnStroke = Instance.new("UIStroke")  
+
+	btnStroke.Color = Color3.new(0, 0, 0)  
+
+	btnStroke.Thickness = 2  -- Same thickness as yours
+
+	btnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border  
+
+	btnStroke.Parent = btn  
+
+	  
+
+	-- Centered text label
+
+	-- Centered text label with auto-scaling
+
+local label = Instance.new("TextLabel")
+
+label.Size = UDim2.new(1, -20, 1, 0)
+
+label.Position = UDim2.new(0, 10, 0, 0)
+
+label.BackgroundTransparency = 1
+
+label.Text = text
+
+label.Font = Enum.Font.GothamBold
+
+label.TextSize = 18
+
+label.TextColor3 = Color3.new(0, 0, 0)
+
+label.TextXAlignment = Enum.TextXAlignment.Center
+
+label.TextYAlignment = Enum.TextYAlignment.Center
+
+label.TextWrapped = true  -- Wraps text
+
+label.TextScaled = true  -- ADD THIS - auto-shrinks text if too long
+
+label.ZIndex = 99
+
+label.Parent = btn
+
+-- Keep text readable (don't scale TOO small)
+
+local textSizeConstraint = Instance.new("UITextSizeConstraint")
+
+textSizeConstraint.MinTextSize = 10
+
+textSizeConstraint.MaxTextSize = 18
+
+textSizeConstraint.Parent = label
+
+	  
+
+	-- Button click handler
+
+	btn.InputBegan:Connect(function(input)  
+
+		if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+
+			Window.ClickSound:Play()  
+
+			if callback then  
+
+				callback()  
+
+			end  
+
+		end
+
+	end)  
+
+	  
+
+	return btn  
+
+end
+
+	  function Tab:AddInfo(text)
+
+	Tab.ElementCount = Tab.ElementCount + 1
+
+	
+
+	-- Main container frame (this holds everything and controls spacing)
+
+	local infoContainer = Instance.new("Frame")
+
+	infoContainer.Size = UDim2.new(0.98, 0, 0, 75) -- Total height including label + gap + content
+
+	infoContainer.Position = UDim2.new(0.025, 0, 0, 0)
+
+	infoContainer.BackgroundTransparency = 1 -- Invisible container
+
+	infoContainer.BorderSizePixel = 0
+
+	infoContainer.ZIndex = 99
+
+	infoContainer.LayoutOrder = Tab.ElementCount
+
+	infoContainer.Parent = scrollFrame
+
+	
+
+	-- Grey "INFO" label frame at the top
+
+	local infoLabel = Instance.new("Frame")
+
+	infoLabel.Size = UDim2.new(0, 60, 0, 22)
+
+	infoLabel.Position = UDim2.new(0, 10, 0, 0) -- Top-left corner
+
+	infoLabel.BackgroundColor3 = Color3.fromRGB(180, 180, 180) -- Grey
+
+	infoLabel.BorderSizePixel = 0
+
+	infoLabel.ZIndex = 101 -- Above content frame
+
+	infoLabel.Parent = infoContainer
+
+	
+
+	local labelCorner = Instance.new("UICorner")
+
+	labelCorner.CornerRadius = UDim.new(0, 8)
+
+	labelCorner.Parent = infoLabel
+
+	
+
+	local labelStroke = Instance.new("UIStroke")
+
+	labelStroke.Color = Color3.new(0, 0, 0)
+
+	labelStroke.Thickness = 1.5
+
+	labelStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	labelStroke.Parent = infoLabel
+
+	
+
+	-- "INFO" text
+
+	local infoText = Instance.new("TextLabel")
+
+	infoText.Size = UDim2.new(1, 0, 1, 0)
+
+	infoText.BackgroundTransparency = 1
+
+	infoText.Text = "INFO"
+
+	infoText.Font = Enum.Font.GothamBold
+
+	infoText.TextSize = 12
+
+	infoText.TextColor3 = Color3.new(0, 0, 0)
+
+	infoText.TextXAlignment = Enum.TextXAlignment.Center
+
+	infoText.TextYAlignment = Enum.TextYAlignment.Center
+
+	infoText.ZIndex = 102
+
+	infoText.Parent = infoLabel
+
+	
+
+	-- White/Light grey content frame (positioned close to INFO label)
+
+	local contentFrame = Instance.new("Frame")
+
+	contentFrame.Size = UDim2.new(1, 0, 0, 60)
+
+	contentFrame.Position = UDim2.new(0, 0, 0, 15) -- Only 15px from top (overlaps with label edge nicely)
+
+	contentFrame.BackgroundColor3 = Color3.fromRGB(240, 240, 240) -- Light grey/white
+
+	contentFrame.BackgroundTransparency = 0
+
+	contentFrame.BorderSizePixel = 0
+
+	contentFrame.ZIndex = 100 -- Below the INFO label
+
+	contentFrame.Parent = infoContainer
+
+	
+
+	local contentCorner = Instance.new("UICorner")
+
+	contentCorner.CornerRadius = UDim.new(0, 12)
+
+	contentCorner.Parent = contentFrame
+
+	
+
+	local contentStroke = Instance.new("UIStroke")
+
+	contentStroke.Color = Color3.new(0, 0, 0)
+
+	contentStroke.Thickness = 2
+
+	contentStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	contentStroke.Parent = contentFrame
+
+	
+
+	-- Main info text with auto-scaling
+
+	local textLabel = Instance.new("TextLabel")
+
+	textLabel.Size = UDim2.new(1, -20, 1, -20)
+
+	textLabel.Position = UDim2.new(0, 10, 0, 10)
+
+	textLabel.BackgroundTransparency = 1
+
+	textLabel.Text = text
+
+	textLabel.Font = Enum.Font.Gotham
+
+	textLabel.TextSize = 16
+
+	textLabel.TextColor3 = Color3.new(0, 0, 0)
+
+	textLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	textLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+	textLabel.TextWrapped = true
+
+	textLabel.TextScaled = true -- Auto-shrink when text is too long
+
+	textLabel.ZIndex = 100
+
+	textLabel.Parent = contentFrame
+
+	
+
+	-- Keep text readable (don't scale TOO small)
+
+	local textSizeConstraint = Instance.new("UITextSizeConstraint")
+
+	textSizeConstraint.MinTextSize = 12 -- Keeps text big and readable
+
+	textSizeConstraint.MaxTextSize = 16
+
+	textSizeConstraint.Parent = textLabel
+
+	
+
+	return infoContainer
+
+end
+
+	function Tab:AddSlider(text, min, max, default, callback)
+
+	Tab.ElementCount = Tab.ElementCount + 1
+
+	
+
+	-- Main container frame (MOVED RIGHT)
+
+	local sliderContainer = Instance.new("Frame")
+
+	sliderContainer.Size = UDim2.new(0.98, 0, 0, 60)  -- Changed to 95% width instead of full width
+
+	sliderContainer.Position = UDim2.new(0.025, 0, 0, 0)  -- Positioned from left with margin
+
+	sliderContainer.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+
+	sliderContainer.BorderSizePixel = 0
+
+	sliderContainer.ZIndex = 99
+
+	sliderContainer.LayoutOrder = Tab.ElementCount
+
+	sliderContainer.Parent = scrollFrame
+
+	Instance.new("UICorner", sliderContainer).CornerRadius = UDim.new(0, 12)
+
+	
+
+	local containerStroke = Instance.new("UIStroke")
+
+	containerStroke.Color = Color3.new(0, 0, 0)
+
+	containerStroke.Thickness = 2
+
+	containerStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	containerStroke.Parent = sliderContainer
+
+	
+
+	-- Text label at the top
+
+	local inputLabel = Instance.new("TextLabel")
+
+	inputLabel.Size = UDim2.new(0, 150, 0, 18)
+
+	inputLabel.Position = UDim2.new(0, 15, 0, 2)
+
+	inputLabel.BackgroundTransparency = 1
+
+	inputLabel.Text = text
+
+	inputLabel.Font = Enum.Font.GothamBold
+
+	inputLabel.TextSize = 16
+
+	inputLabel.TextColor3 = Color3.new(0, 0, 0)
+
+	inputLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	inputLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+	inputLabel.ZIndex = 99
+
+	inputLabel.Parent = sliderContainer
+
+	
+
+	-- Slider box container
+
+	local firstBox = Instance.new("Frame")
+
+	firstBox.Name = "SliderBox"
+
+	firstBox.Size = UDim2.new(1, -30, 0, 32)
+
+	firstBox.Position = UDim2.new(0.5, 0, 0, 25)
+
+	firstBox.AnchorPoint = Vector2.new(0.5, 0)
+
+	firstBox.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+
+	firstBox.BackgroundTransparency = 0.2
+
+	firstBox.BorderSizePixel = 0
+
+	firstBox.ZIndex = 99
+
+	firstBox.Parent = sliderContainer
+
+	
+
+	local firstCorner = Instance.new("UICorner")
+
+	firstCorner.CornerRadius = UDim.new(0, 4)
+
+	firstCorner.Parent = firstBox
+
+	
+
+	local firstStroke = Instance.new("UIStroke")
+
+	firstStroke.Color = Color3.new(0, 0, 0)
+
+	firstStroke.Thickness = 1
+
+	firstStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	firstStroke.Parent = firstBox
+
+	
+
+	-- Number TextBox (editable)
+
+	local numberLabel = Instance.new("TextBox")
+
+	numberLabel.Size = UDim2.new(0, 50, 1, 0)
+
+	numberLabel.Position = UDim2.new(1, -55, 0, 0)
+
+	numberLabel.BackgroundTransparency = 1
+
+	numberLabel.Text = tostring(default)
+
+	numberLabel.Font = Enum.Font.GothamBold
+
+	numberLabel.TextSize = 16
+
+	numberLabel.TextColor3 = Color3.new(0, 0, 0)
+
+	numberLabel.TextXAlignment = Enum.TextXAlignment.Right
+
+	numberLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+	numberLabel.ClearTextOnFocus = false
+
+	numberLabel.ZIndex = 99
+
+	numberLabel.Parent = firstBox
+
+	
+
+	-- Slider track background
+
+	local sliderTrack = Instance.new("Frame")
+
+	sliderTrack.Size = UDim2.new(1, -130, 0, 12)
+
+	sliderTrack.Position = UDim2.new(0, 10, 0.5, -6)
+
+	sliderTrack.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+
+	sliderTrack.BorderSizePixel = 0
+
+	sliderTrack.ZIndex = 99
+
+	sliderTrack.Parent = firstBox
+
+	
+
+	local trackCorner = Instance.new("UICorner")
+
+	trackCorner.CornerRadius = UDim.new(1, 0)
+
+	trackCorner.Parent = sliderTrack
+
+	
+
+	local trackStroke = Instance.new("UIStroke")
+
+	trackStroke.Color = Color3.new(0, 0, 0)
+
+	trackStroke.Thickness = 1
+
+	trackStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	trackStroke.Parent = sliderTrack
+
+	
+
+	-- Slider fill
+
+	local sliderFill = Instance.new("Frame")
+
+	sliderFill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
+
+	sliderFill.Position = UDim2.new(0, 0, 0, 0)
+
+	sliderFill.BackgroundColor3 = Color3.fromRGB(160, 160, 160)
+
+	sliderFill.BorderSizePixel = 0
+
+	sliderFill.ZIndex = 100
+
+	sliderFill.Parent = sliderTrack
+
+	
+
+	local fillCorner = Instance.new("UICorner")
+
+	fillCorner.CornerRadius = UDim.new(1, 0)
+
+	fillCorner.Parent = sliderFill
+
+	
+
+	-- Slider functionality
+
+	local dragging = false
+
+	local currentValue = default
+
+	
+
+	local function updateSlider(input)
+
+		local trackPos = sliderTrack.AbsolutePosition.X
+
+		local trackSize = sliderTrack.AbsoluteSize.X
+
+		local mouseX = input.Position.X
+
+		
+
+		local relativeX = math.clamp(mouseX - trackPos, 0, trackSize)
+
+		local percentage = relativeX / trackSize
+
+		
+
+		currentValue = math.floor(min + (max - min) * percentage)
+
+		
+
+		sliderFill.Size = UDim2.new(percentage, 0, 1, 0)
+
+		numberLabel.Text = tostring(currentValue)
+
+		
+
+		if callback then
+
+			callback(currentValue)
+
+		end
+
+	end
+
+	
+
+	sliderTrack.InputBegan:Connect(function(input)
+
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+
+			dragging = true
+
+			updateSlider(input)
+
+		end
+
+	end)
+
+	
+
+	sliderTrack.InputEnded:Connect(function(input)
+
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+
+			dragging = false
+
+		end
+
+	end)
+
+	
+
+	game:GetService("UserInputService").InputChanged:Connect(function(input)
+
+		if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+
+			updateSlider(input)
+
+		end
+
+	end)
+
+	
+
+	numberLabel.FocusLost:Connect(function(enterPressed)
+
+		local inputValue = tonumber(numberLabel.Text)
+
+		if inputValue then
+
+			inputValue = math.clamp(inputValue, min, max)
+
+			currentValue = inputValue
+
+			local percentage = (inputValue - min) / (max - min)
+
+			sliderFill.Size = UDim2.new(percentage, 0, 1, 0)
+
+			numberLabel.Text = tostring(inputValue)
+
+			if callback then
+
+				callback(inputValue)
+
+			end
+
+		else
+
+			numberLabel.Text = tostring(currentValue)
+
+		end
+
+	end)
+
+	
+
+	return sliderContainer
+
+end
+
+function Tab:AddSeparator(text)
+
+	Tab.ElementCount = Tab.ElementCount + 1
+
+	
+
+	-- Separator container (invisible box, only text visible)
+
+	local separatorBox = Instance.new("Frame")
+
+	separatorBox.Size = UDim2.new(1, -10, 0, 35)  -- Same width as button, shorter height
+
+	separatorBox.BackgroundTransparency = 1  -- FULLY INVISIBLE
+
+	separatorBox.BorderSizePixel = 0
+
+	separatorBox.ZIndex = 99
+
+	separatorBox.LayoutOrder = Tab.ElementCount
+
+	separatorBox.Parent = scrollFrame
+
+	
+
+	-- Grey bold text label
+
+	local label = Instance.new("TextLabel")
+
+	label.Size = UDim2.new(1, -20, 1, 0)
+
+	label.Position = UDim2.new(0, 10, 0, 0)
+
+	label.BackgroundTransparency = 1
+
+	label.Text = text or "GROUP"  -- Default text if none provided
+
+	label.Font = Enum.Font.GothamBold
+
+	label.TextSize = 16
+
+	label.TextColor3 = Color3.fromRGB(120, 120, 120)  -- Grey text
+
+	label.TextXAlignment = Enum.TextXAlignment.Left
+
+	label.TextYAlignment = Enum.TextYAlignment.Center
+
+	label.ZIndex = 99
+
+	label.Parent = separatorBox
+
+	
+
+	return separatorBox
+
+end
+
+	  function Tab:AddToggle(text, default, callback)
+
+	Tab.ElementCount = Tab.ElementCount + 1
+
+	
+
+	-- Toggle container frame
+
+	local toggleBox = Instance.new("Frame")
+
+	toggleBox.Size = UDim2.new(1, -10, 0, 50)
+
+	toggleBox.BackgroundColor3 = Color3.fromRGB(240, 240, 240)  -- Light grey (grey + white mix)
+
+	toggleBox.BackgroundTransparency = 0  -- FULLY VISIBLE NOW
+
+	toggleBox.BorderSizePixel = 0
+
+	toggleBox.ZIndex = 99
+
+	toggleBox.LayoutOrder = Tab.ElementCount
+
+	toggleBox.Parent = scrollFrame
+
+	Instance.new("UICorner", toggleBox).CornerRadius = UDim.new(0, 12)
+
+	
+
+	local boxStroke = Instance.new("UIStroke")
+
+	boxStroke.Color = Color3.new(0, 0, 0)
+
+	boxStroke.Thickness = 2
+
+	boxStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	boxStroke.Parent = toggleBox
+
+	
+
+	-- Text label (left side, SMALLER TEXT)
+
+	local label = Instance.new("TextLabel")
+
+	label.Size = UDim2.new(1, -80, 1, 0)
+
+	label.Position = UDim2.new(0, 10, 0, 0)
+
+	label.BackgroundTransparency = 1
+
+	label.Text = text
+
+	label.Font = Enum.Font.GothamBold
+
+	label.TextSize = 16  -- SMALLER (was 18)
+
+	label.TextColor3 = Color3.new(0, 0, 0)
+
+	label.TextXAlignment = Enum.TextXAlignment.Left
+
+	label.TextYAlignment = Enum.TextYAlignment.Center
+
+	label.TextWrapped = true  -- Wraps if too long
+
+	label.TextScaled = true  -- Auto-scales text
+
+	label.ZIndex = 99
+
+	label.Parent = toggleBox
+
+	
+
+	-- Keep text readable
+
+	local textSizeConstraint = Instance.new("UITextSizeConstraint")
+
+	textSizeConstraint.MinTextSize = 10
+
+	textSizeConstraint.MaxTextSize = 16
+
+	textSizeConstraint.Parent = label
+
+	
+
+	-- Toggle Frame (right side)
+
+	local toggleFrame = Instance.new("Frame")
+
+	toggleFrame.Size = UDim2.new(0, 60, 0, 30)
+
+	toggleFrame.Position = UDim2.new(1, -70, 0.5, 0)
+
+	toggleFrame.AnchorPoint = Vector2.new(0, 0.5)
+
+	toggleFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)  -- White when OFF
+
+	toggleFrame.BorderSizePixel = 0
+
+	toggleFrame.ZIndex = 99
+
+	toggleFrame.Parent = toggleBox
+
+	
+
+	local toggleCorner = Instance.new("UICorner")
+
+	toggleCorner.CornerRadius = UDim.new(1, 0)
+
+	toggleCorner.Parent = toggleFrame
+
+	
+
+	-- Toggle circle
+
+	local circle = Instance.new("Frame")
+
+	circle.Size = UDim2.new(0, 26, 0, 26)
+
+	circle.Position = UDim2.new(0, 2, 0.5, -13)
+
+	circle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Black when OFF
+
+	circle.BorderSizePixel = 0
+
+	circle.ZIndex = 100
+
+	circle.Parent = toggleFrame
+
+	
+
+	local circleCorner = Instance.new("UICorner")
+
+	circleCorner.CornerRadius = UDim.new(1, 0)
+
+	circleCorner.Parent = circle
+
+	
+
+	-- Toggle Logic
+
+	local toggled = default or false
+
+	
+
+	local function setToggle(state)
+
+		if state == toggled then return end
+
+		toggled = state
+
+		
+
+		local targetPos = toggled and UDim2.new(1, -28, 0.5, -13) or UDim2.new(0, 2, 0.5, -13)
+
+		local targetBG = toggled and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(255, 255, 255)
+
+		local targetCircle = toggled and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(0, 0, 0)
+
+		
+
+		TweenService:Create(circle, TweenInfo.new(0.25), { Position = targetPos }):Play()
+
+		TweenService:Create(toggleFrame, TweenInfo.new(0.25), { BackgroundColor3 = targetBG }):Play()
+
+		TweenService:Create(circle, TweenInfo.new(0.25), { BackgroundColor3 = targetCircle }):Play()
+
+		
+
+		Window.ClickSound:Play()
+
+		
+
+		if callback then
+
+			callback(toggled)
+
+		end
+
+	end
+
+	
+
+	-- Set initial state if default is true
+
+	if default then
+
+		circle.Position = UDim2.new(1, -28, 0.5, -13)
+
+		toggleFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+
+		circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+
+	end
+
+	
+
+	-- Click handler
+
+	toggleFrame.InputBegan:Connect(function(input)
+
+		if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+
+			setToggle(not toggled)
+
+		end
+
+	end)
+
+	
+
+	return toggleBox
+
+end
+
+	function Tab:AddDropdown(text, options, callback)
+
+	Tab.ElementCount = Tab.ElementCount + 1
+
+	
+
+	local dropdownContainer = Instance.new("Frame")
+
+	dropdownContainer.Size = UDim2.new(0.98, 0, 0, 90)
+
+	dropdownContainer.Position = UDim2.new(0.025, 0, 0, 0)
+
+	dropdownContainer.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+
+	dropdownContainer.BorderSizePixel = 0
+
+	dropdownContainer.ZIndex = 99
+
+	dropdownContainer.LayoutOrder = Tab.ElementCount
+
+	dropdownContainer.ClipsDescendants = false
+
+	dropdownContainer.Parent = scrollFrame
+
+	
+
+	local containerCorner = Instance.new("UICorner")
+
+	containerCorner.CornerRadius = UDim.new(0, 12)
+
+	containerCorner.Parent = dropdownContainer
+
+	
+
+	local containerStroke = Instance.new("UIStroke")
+
+	containerStroke.Color = Color3.new(0, 0, 0)
+
+	containerStroke.Thickness = 2
+
+	containerStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	containerStroke.Parent = dropdownContainer
+
+	
+
+	local dropdownLabel = Instance.new("TextLabel")
+
+	dropdownLabel.Size = UDim2.new(0, 150, 0, 25)
+
+	dropdownLabel.Position = UDim2.new(0, 10, 0, 5)
+
+	dropdownLabel.BackgroundTransparency = 1
+
+	dropdownLabel.Text = text
+
+	dropdownLabel.Font = Enum.Font.GothamBold
+
+	dropdownLabel.TextSize = 20
+
+	dropdownLabel.TextColor3 = Color3.new(0, 0, 0)
+
+	dropdownLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	dropdownLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+	dropdownLabel.ZIndex = 99
+
+	dropdownLabel.Parent = dropdownContainer
+
+	
+
+	local firstBox = Instance.new("Frame")
+
+	firstBox.Name = "DropdownContainer"
+
+	firstBox.Size = UDim2.new(1, -20, 0, 45)
+
+	firstBox.Position = UDim2.new(0.5, 0, 0, 35)
+
+	firstBox.AnchorPoint = Vector2.new(0.5, 0)
+
+	firstBox.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+
+	firstBox.BackgroundTransparency = 0.2
+
+	firstBox.BorderSizePixel = 0
+
+	firstBox.ZIndex = 99
+
+	firstBox.ClipsDescendants = false
+
+	firstBox.Parent = dropdownContainer
+
+	
+
+	local firstCorner = Instance.new("UICorner")
+
+	firstCorner.CornerRadius = UDim.new(0, 4)
+
+	firstCorner.Parent = firstBox
+
+	
+
+	local firstStroke = Instance.new("UIStroke")
+
+	firstStroke.Color = Color3.new(0, 0, 0)
+
+	firstStroke.Thickness = 1
+
+	firstStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	firstStroke.Parent = firstBox
+
+	
+
+	local bodyPartsLabel = Instance.new("TextLabel")
+
+	bodyPartsLabel.Size = UDim2.new(0, 100, 1, 0)
+
+	bodyPartsLabel.Position = UDim2.new(0, 10, 0, 0)
+
+	bodyPartsLabel.BackgroundTransparency = 1
+
+	bodyPartsLabel.Text = text
+
+	bodyPartsLabel.Font = Enum.Font.GothamBold
+
+	bodyPartsLabel.TextSize = 16
+
+	bodyPartsLabel.TextColor3 = Color3.new(0, 0, 0)
+
+	bodyPartsLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	bodyPartsLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+	bodyPartsLabel.ZIndex = 99
+
+	bodyPartsLabel.Parent = firstBox
+
+	
+
+	local selectionBox = Instance.new("TextButton")
+
+	selectionBox.Name = "SelectionBox"
+
+	selectionBox.Size = UDim2.new(1, -130, 1, -10)
+
+	selectionBox.Position = UDim2.new(0, 120, 0.5, 0)
+
+	selectionBox.AnchorPoint = Vector2.new(0, 0.5)
+
+	selectionBox.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+
+	selectionBox.BorderSizePixel = 0
+
+	selectionBox.Text = ""
+
+	selectionBox.Font = Enum.Font.Gotham
+
+	selectionBox.TextSize = 14
+
+	selectionBox.TextColor3 = Color3.new(0, 0, 0)
+
+	selectionBox.TextXAlignment = Enum.TextXAlignment.Left
+
+	selectionBox.TextTruncate = Enum.TextTruncate.AtEnd
+
+	selectionBox.AutoButtonColor = false
+
+	selectionBox.ZIndex = 100
+
+	selectionBox.Parent = firstBox
+
+	
+
+	local textPadding = Instance.new("UIPadding")
+
+	textPadding.PaddingLeft = UDim.new(0, 8)
+
+	textPadding.PaddingRight = UDim.new(0, 8)
+
+	textPadding.Parent = selectionBox
+
+	
+
+	local selectionCorner = Instance.new("UICorner")
+
+	selectionCorner.CornerRadius = UDim.new(0, 4)
+
+	selectionCorner.Parent = selectionBox
+
+	
+
+	local selectionStroke = Instance.new("UIStroke")
+
+	selectionStroke.Color = Color3.new(0, 0, 0)
+
+	selectionStroke.Thickness = 1
+
+	selectionStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	selectionStroke.Parent = selectionBox
+
+	
+
+	local dropdownFrame = Instance.new("Frame")
+
+	dropdownFrame.Name = "DropdownOptions"
+
+	dropdownFrame.Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)
+
+	dropdownFrame.Position = UDim2.new(0, 120, 1, 5)
+
+	dropdownFrame.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+
+	dropdownFrame.BackgroundTransparency = 0.2
+
+	dropdownFrame.BorderSizePixel = 0
+
+	dropdownFrame.Visible = false
+
+	dropdownFrame.ClipsDescendants = true
+
+	dropdownFrame.ZIndex = 102
+
+	dropdownFrame.Parent = firstBox
+
+	
+
+	local dropdownCorner = Instance.new("UICorner")
+
+	dropdownCorner.CornerRadius = UDim.new(0, 4)
+
+	dropdownCorner.Parent = dropdownFrame
+
+	
+
+	local dropdownStroke = Instance.new("UIStroke")
+
+	dropdownStroke.Color = Color3.new(0, 0, 0)
+
+	dropdownStroke.Thickness = 1
+
+	dropdownStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	dropdownStroke.Parent = dropdownFrame
+
+	
+
+	local optionHeight = 35
+
+	local isOpen = false
+
+	local selectedParts = {}
+
+	local optionButtons = {}
+
+	local collapsedHeight = 90
+
+	
+
+	-- FIXED: Update selection text properly
+
+	local function updateSelectionText()
+
+		if #selectedParts == 0 then
+
+			selectionBox.Text = ""
+
+		else
+
+			selectionBox.Text = table.concat(selectedParts, ", ")
+
+		end
+
+	end
+
+	
+
+	local function isSelected(partName)
+
+		for _, selected in ipairs(selectedParts) do
+
+			if selected == partName then
+
+				return true
+
+			end
+
+		end
+
+		return false
+
+	end
+
+	
+
+	local function removePart(partName)
+
+		for i, selected in ipairs(selectedParts) do
+
+			if selected == partName then
+
+				table.remove(selectedParts, i)
+
+				return
+
+			end
+
+		end
+
+	end
+
+	
+
+	for i, partName in ipairs(options) do
+
+		local optionButton = Instance.new("TextButton")
+
+		optionButton.Name = partName
+
+		optionButton.Size = UDim2.new(1, 0, 0, optionHeight)
+
+		optionButton.Position = UDim2.new(0, 0, 0, (i - 1) * optionHeight)
+
+		optionButton.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+
+		optionButton.BorderSizePixel = 0
+
+		optionButton.Text = ""
+
+		optionButton.AutoButtonColor = false
+
+		optionButton.ZIndex = 103
+
+		optionButton.Parent = dropdownFrame
+
+		
+
+		if i < #options then
+
+			local separator = Instance.new("Frame")
+
+			separator.Name = "Separator"
+
+			separator.Size = UDim2.new(1, 0, 0, 1)
+
+			separator.Position = UDim2.new(0, 0, 1, 0)
+
+			separator.BackgroundColor3 = Color3.fromRGB(180, 180, 180)
+
+			separator.BorderSizePixel = 0
+
+			separator.ZIndex = 104
+
+			separator.Parent = optionButton
+
+		end
+
+		
+
+		local dot = Instance.new("Frame")
+
+		dot.Name = "Dot"
+
+		dot.Size = UDim2.new(0, 8, 0, 8)
+
+		dot.Position = UDim2.new(0, 12, 0.5, 0)
+
+		dot.AnchorPoint = Vector2.new(0, 0.5)
+
+		dot.BackgroundColor3 = Color3.new(0, 0, 0)
+
+		dot.BorderSizePixel = 0
+
+		dot.ZIndex = 104
+
+		dot.Parent = optionButton
+
+		
+
+		local dotCorner = Instance.new("UICorner")
+
+		dotCorner.CornerRadius = UDim.new(1, 0)
+
+		dotCorner.Parent = dot
+
+		
+
+		local optionText = Instance.new("TextLabel")
+
+		optionText.Size = UDim2.new(1, -30, 1, 0)
+
+		optionText.Position = UDim2.new(0, 30, 0, 0)
+
+		optionText.BackgroundTransparency = 1
+
+		optionText.Text = partName
+
+		optionText.Font = Enum.Font.Gotham
+
+		optionText.TextSize = 16
+
+		optionText.TextColor3 = Color3.new(0, 0, 0)
+
+		optionText.TextXAlignment = Enum.TextXAlignment.Left
+
+		optionText.ZIndex = 104
+
+		optionText.Parent = optionButton
+
+		
+
+		optionButtons[partName] = {button = optionButton, dot = dot}
+
+		
+
+		optionButton.MouseEnter:Connect(function()
+
+			if not isSelected(partName) then
+
+				optionButton.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+
+			end
+
+		end)
+
+		
+
+		optionButton.MouseLeave:Connect(function()
+
+			if not isSelected(partName) then
+
+				optionButton.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+
+			else
+
+				optionButton.BackgroundColor3 = Color3.fromRGB(210, 210, 210)
+
+			end
+
+		end)
+
+		
+
+		optionButton.MouseButton1Click:Connect(function()
+				 task.wait()
+			Window.ClickSound:Play()
+
+			
+
+			if isSelected(partName) then
+
+				removePart(partName)
+
+				dot.BackgroundColor3 = Color3.new(0, 0, 0)
+
+				optionButton.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+
+			else
+
+				table.insert(selectedParts, partName)
+
+				dot.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
+
+				optionButton.BackgroundColor3 = Color3.fromRGB(210, 210, 210)
+
+			end
+
+			
+
+			updateSelectionText() -- FIXED: This will now properly update the text
+
+			
+
+			if callback then
+
+				callback(selectedParts)
+
+			end
+
+		end)
+
+	end
+
+	
+
+	selectionBox.MouseButton1Click:Connect(function()
+
+		Window.ClickSound:Play()
+
+		
+
+		if isOpen then
+
+			local expandedHeight = #options * optionHeight
+
+			local closeTween = TweenService:Create(dropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)})
+
+			local containerShrinkTween = TweenService:Create(dropdownContainer, TweenInfo.new(0.2), {Size = UDim2.new(0.98, 0, 0, collapsedHeight)})
+
+			
+
+			closeTween:Play()
+
+			containerShrinkTween:Play()
+
+			
+
+			closeTween.Completed:Connect(function()
+
+				dropdownFrame.Visible = false
+
+				isOpen = false
+
+			end)
+
+		else
+
+			dropdownFrame.Visible = true
+
+			dropdownFrame.Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)
+
+			
+
+			local expandedHeight = #options * optionHeight
+
+			local openTween = TweenService:Create(dropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, expandedHeight)})
+
+			local newContainerHeight = collapsedHeight + expandedHeight + 10
+
+			local containerExpandTween = TweenService:Create(dropdownContainer, TweenInfo.new(0.2), {Size = UDim2.new(0.98, 0, 0, newContainerHeight)})
+
+			
+
+			openTween:Play()
+
+			containerExpandTween:Play()
+
+			isOpen = true
+
+		end
+
+	end)
+
+	
+
+	game:GetService("UserInputService").InputBegan:Connect(function(input)
+
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+
+			local mousePos = input.Position
+
+			local guiInset = game:GetService("GuiService"):GetGuiInset()
+
+			local adjustedPos = Vector2.new(mousePos.X, mousePos.Y - guiInset.Y)
+
+			
+
+			if isOpen then
+
+				local boxPos = selectionBox.AbsolutePosition
+
+				local boxSize = selectionBox.AbsoluteSize
+
+				local dropPos = dropdownFrame.AbsolutePosition
+
+				local dropSize = dropdownFrame.AbsoluteSize
+
+				
+
+				local clickedInBox = (adjustedPos.X >= boxPos.X and adjustedPos.X <= boxPos.X + boxSize.X and 
+
+				                      adjustedPos.Y >= boxPos.Y and adjustedPos.Y <= boxPos.Y + boxSize.Y)
+
+				
+
+				local clickedInDrop = (adjustedPos.X >= dropPos.X and adjustedPos.X <= dropPos.X + dropSize.X and 
+
+				                       adjustedPos.Y >= dropPos.Y and adjustedPos.Y <= dropPos.Y + dropSize.Y)
+
+				
+
+				if not clickedInBox and not clickedInDrop then
+
+					local expandedHeight = #options * optionHeight
+
+					local closeTween = TweenService:Create(dropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)})
+
+					local containerShrinkTween = TweenService:Create(dropdownContainer, TweenInfo.new(0.2), {Size = UDim2.new(0.98, 0, 0, collapsedHeight)})
+
+					
+
+					closeTween:Play()
+
+					containerShrinkTween:Play()
+
+					
+
+					closeTween.Completed:Connect(function()
+
+						dropdownFrame.Visible = false
+
+						isOpen = false
+
+					end)
+
+				end
+
+			end
+
+		end
+
+	end)
+
+	
+
+	return dropdownContainer
+
+end
+
+function Tab:AddDropdownSingle(text, options, default, callback)
+
+	Tab.ElementCount = Tab.ElementCount + 1
+
+	
+
+	-- Main container frame (WILL EXPAND when dropdown opens)
+
+	local dropdownContainer = Instance.new("Frame")
+
+	dropdownContainer.Size = UDim2.new(0.98, 0, 0, 90) -- Initial collapsed height
+
+	dropdownContainer.Position = UDim2.new(0.025, 0, 0, 0)
+
+	dropdownContainer.BackgroundColor3 = Color3.fromRGB(240, 240, 240)
+
+	dropdownContainer.BorderSizePixel = 0
+
+	dropdownContainer.ZIndex = 99
+
+	dropdownContainer.LayoutOrder = Tab.ElementCount
+
+	dropdownContainer.ClipsDescendants = false
+
+	dropdownContainer.Parent = scrollFrame
+
+	
+
+	local containerCorner = Instance.new("UICorner")
+
+	containerCorner.CornerRadius = UDim.new(0, 12)
+
+	containerCorner.Parent = dropdownContainer
+
+	
+
+	local containerStroke = Instance.new("UIStroke")
+
+	containerStroke.Color = Color3.new(0, 0, 0)
+
+	containerStroke.Thickness = 2
+
+	containerStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	containerStroke.Parent = dropdownContainer
+
+	
+
+	-- "Drop down" label at top
+
+	local dropdownLabel = Instance.new("TextLabel")
+
+	dropdownLabel.Size = UDim2.new(0, 150, 0, 25)
+
+	dropdownLabel.Position = UDim2.new(0, 10, 0, 5)
+
+	dropdownLabel.BackgroundTransparency = 1
+
+	dropdownLabel.Text = text
+
+	dropdownLabel.Font = Enum.Font.GothamBold
+
+	dropdownLabel.TextSize = 20
+
+	dropdownLabel.TextColor3 = Color3.new(0, 0, 0)
+
+	dropdownLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	dropdownLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+	dropdownLabel.ZIndex = 99
+
+	dropdownLabel.Parent = dropdownContainer
+
+	
+
+	-- Grey first box (selector container)
+
+	local firstBox = Instance.new("Frame")
+
+	firstBox.Name = "DropdownContainer"
+
+	firstBox.Size = UDim2.new(1, -20, 0, 45)
+
+	firstBox.Position = UDim2.new(0.5, 0, 0, 35)
+
+	firstBox.AnchorPoint = Vector2.new(0.5, 0)
+
+	firstBox.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+
+	firstBox.BackgroundTransparency = 0.2
+
+	firstBox.BorderSizePixel = 0
+
+	firstBox.ZIndex = 99
+
+	firstBox.ClipsDescendants = false
+
+	firstBox.Parent = dropdownContainer
+
+	
+
+	local firstCorner = Instance.new("UICorner")
+
+	firstCorner.CornerRadius = UDim.new(0, 4)
+
+	firstCorner.Parent = firstBox
+
+	
+
+	local firstStroke = Instance.new("UIStroke")
+
+	firstStroke.Color = Color3.new(0, 0, 0)
+
+	firstStroke.Thickness = 1
+
+	firstStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	firstStroke.Parent = firstBox
+
+	
+
+	-- Label (left side)
+
+	local bodyPartsLabel = Instance.new("TextLabel")
+
+	bodyPartsLabel.Size = UDim2.new(0, 100, 1, 0)
+
+	bodyPartsLabel.Position = UDim2.new(0, 10, 0, 0)
+
+	bodyPartsLabel.BackgroundTransparency = 1
+
+	bodyPartsLabel.Text = text
+
+	bodyPartsLabel.Font = Enum.Font.GothamBold
+
+	bodyPartsLabel.TextSize = 16
+
+	bodyPartsLabel.TextColor3 = Color3.new(0, 0, 0)
+
+	bodyPartsLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+	bodyPartsLabel.TextYAlignment = Enum.TextYAlignment.Center
+
+	bodyPartsLabel.ZIndex = 99
+
+	bodyPartsLabel.Parent = firstBox
+
+	
+
+	-- Selection box (white box showing selected item)
+
+	local selectionBox = Instance.new("TextButton")
+
+	selectionBox.Name = "SelectionBox"
+
+	selectionBox.Size = UDim2.new(1, -130, 1, -10)
+
+	selectionBox.Position = UDim2.new(0, 120, 0.5, 0)
+
+	selectionBox.AnchorPoint = Vector2.new(0, 0.5)
+
+	selectionBox.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+
+	selectionBox.BorderSizePixel = 0
+
+	selectionBox.Text = default or options[1] or ""
+
+	selectionBox.Font = Enum.Font.Gotham
+
+	selectionBox.TextSize = 14
+
+	selectionBox.TextColor3 = Color3.new(0, 0, 0)
+
+	selectionBox.TextXAlignment = Enum.TextXAlignment.Left
+
+	selectionBox.TextTruncate = Enum.TextTruncate.AtEnd
+
+	selectionBox.AutoButtonColor = false
+
+	selectionBox.ZIndex = 100
+
+	selectionBox.Parent = firstBox
+
+	
+
+	local textPadding = Instance.new("UIPadding")
+
+	textPadding.PaddingLeft = UDim.new(0, 8)
+
+	textPadding.PaddingRight = UDim.new(0, 8)
+
+	textPadding.Parent = selectionBox
+
+	
+
+	local selectionCorner = Instance.new("UICorner")
+
+	selectionCorner.CornerRadius = UDim.new(0, 4)
+
+	selectionCorner.Parent = selectionBox
+
+	
+
+	local selectionStroke = Instance.new("UIStroke")
+
+	selectionStroke.Color = Color3.new(0, 0, 0)
+
+	selectionStroke.Thickness = 1
+
+	selectionStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	selectionStroke.Parent = selectionBox
+
+	
+
+	-- Dropdown options frame
+
+	local dropdownFrame = Instance.new("Frame")
+
+	dropdownFrame.Name = "DropdownOptions"
+
+	dropdownFrame.Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)
+
+	dropdownFrame.Position = UDim2.new(0, 120, 1, 5)
+
+	dropdownFrame.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+
+	dropdownFrame.BackgroundTransparency = 0.2
+
+	dropdownFrame.BorderSizePixel = 0
+
+	dropdownFrame.Visible = false
+
+	dropdownFrame.ClipsDescendants = true
+
+	dropdownFrame.ZIndex = 102
+
+	dropdownFrame.Parent = firstBox
+
+	
+
+	local dropdownCorner = Instance.new("UICorner")
+
+	dropdownCorner.CornerRadius = UDim.new(0, 4)
+
+	dropdownCorner.Parent = dropdownFrame
+
+	
+
+	local dropdownStroke = Instance.new("UIStroke")
+
+	dropdownStroke.Color = Color3.new(0, 0, 0)
+
+	dropdownStroke.Thickness = 1
+
+	dropdownStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+	dropdownStroke.Parent = dropdownFrame
+
+	
+
+	-- State
+
+	local optionHeight = 35
+
+	local isOpen = false
+
+	local selectedOption = default or options[1]
+
+	local optionDots = {}
+
+	local collapsedHeight = 90
+
+	
+
+	-- Create option buttons with animated dots
+
+	for i, optionName in ipairs(options) do
+
+		local optionButton = Instance.new("TextButton")
+
+		optionButton.Name = optionName
+
+		optionButton.Size = UDim2.new(1, 0, 0, optionHeight)
+
+		optionButton.Position = UDim2.new(0, 0, 0, (i - 1) * optionHeight)
+
+		optionButton.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+
+		optionButton.BorderSizePixel = 0
+
+		optionButton.Text = ""
+
+		optionButton.AutoButtonColor = false
+
+		optionButton.ZIndex = 103
+
+		optionButton.Parent = dropdownFrame
+
+		
+
+		-- SEPARATOR LINE between each option (except last)
+
+		if i < #options then
+
+			local separator = Instance.new("Frame")
+
+			separator.Name = "Separator"
+
+			separator.Size = UDim2.new(1, 0, 0, 1)
+
+			separator.Position = UDim2.new(0, 0, 1, 0)
+
+			separator.BackgroundColor3 = Color3.fromRGB(180, 180, 180)
+
+			separator.BorderSizePixel = 0
+
+			separator.ZIndex = 104
+
+			separator.Parent = optionButton
+
+		end
+
+		
+
+		-- Dot indicator (left side) - SMALL by default (4x4)
+
+		local dot = Instance.new("Frame")
+
+		dot.Name = "Dot"
+
+		dot.Size = UDim2.new(0, 4, 0, 4)  -- SMALL
+
+		dot.Position = UDim2.new(0, 12, 0.5, 0)
+
+		dot.AnchorPoint = Vector2.new(0, 0.5)
+
+		dot.BackgroundColor3 = Color3.new(0, 0, 0)
+
+		dot.BorderSizePixel = 0
+
+		dot.ZIndex = 104
+
+		dot.Parent = optionButton
+
+		
+
+		local dotCorner = Instance.new("UICorner")
+
+		dotCorner.CornerRadius = UDim.new(1, 0)
+
+		dotCorner.Parent = dot
+
+		
+
+		-- If this is the default/selected option, make dot BIG (8x8)
+
+		if optionName == selectedOption then
+
+			dot.Size = UDim2.new(0, 8, 0, 8)
+
+		end
+
+		
+
+		optionDots[optionName] = dot
+
+		
+
+		-- Text label for option
+
+		local optionText = Instance.new("TextLabel")
+
+		optionText.Size = UDim2.new(1, -30, 1, 0)
+
+		optionText.Position = UDim2.new(0, 30, 0, 0)
+
+		optionText.BackgroundTransparency = 1
+
+		optionText.Text = optionName
+
+		optionText.Font = Enum.Font.Gotham
+
+		optionText.TextSize = 16
+
+		optionText.TextColor3 = Color3.new(0, 0, 0)
+
+		optionText.TextXAlignment = Enum.TextXAlignment.Left
+
+		optionText.ZIndex = 104
+
+		optionText.Parent = optionButton
+
+		
+
+		-- Hover effect
+
+		optionButton.MouseEnter:Connect(function()
+
+			optionButton.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+
+		end)
+
+		
+
+		optionButton.MouseLeave:Connect(function()
+
+			optionButton.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+
+		end)
+
+		
+
+		-- Click to select (SINGLE SELECT ONLY)
+
+		optionButton.MouseButton1Click:Connect(function()
+
+			Window.ClickSound:Play()
+
+			
+
+			-- Shrink ALL dots to small (4x4)
+
+			for name, otherDot in pairs(optionDots) do
+
+				TweenService:Create(otherDot, TweenInfo.new(0.25), {Size = UDim2.new(0, 4, 0, 4)}):Play()
+
+			end
+
+			
+
+			-- Grow THIS dot to BIG (8x8) with animation
+
+			TweenService:Create(dot, TweenInfo.new(0.25), {Size = UDim2.new(0, 8, 0, 8)}):Play()
+
+			
+
+			selectedOption = optionName
+
+			selectionBox.Text = optionName
+
+			
+
+			-- Call callback immediately
+
+			if callback then
+
+				callback(selectedOption)
+
+			end
+
+			
+
+			-- Don't close dropdown automatically - let user close it manually
+
+			-- (or uncomment below to auto-close like your original script)
+
+			--[[
+
+			local expandedHeight = #options * optionHeight
+
+			local closeTween = TweenService:Create(dropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)})
+
+			local containerShrinkTween = TweenService:Create(dropdownContainer, TweenInfo.new(0.2), {Size = UDim2.new(0.98, 0, 0, collapsedHeight)})
+
+			
+
+			closeTween:Play()
+
+			containerShrinkTween:Play()
+
+			
+
+			closeTween.Completed:Connect(function()
+
+				dropdownFrame.Visible = false
+
+				isOpen = false
+
+			end)
+
+			]]
+
+		end)
+
+	end
+
+	
+
+	-- Toggle dropdown
+
+	selectionBox.MouseButton1Click:Connect(function()
+
+		Window.ClickSound:Play()
+
+		
+
+		if isOpen then
+
+			-- Close dropdown
+
+			local expandedHeight = #options * optionHeight
+
+			local closeTween = TweenService:Create(dropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)})
+
+			local containerShrinkTween = TweenService:Create(dropdownContainer, TweenInfo.new(0.2), {Size = UDim2.new(0.98, 0, 0, collapsedHeight)})
+
+			
+
+			closeTween:Play()
+
+			containerShrinkTween:Play()
+
+			
+
+			closeTween.Completed:Connect(function()
+
+				dropdownFrame.Visible = false
+
+				isOpen = false
+
+			end)
+
+		else
+
+			-- Open dropdown
+
+			dropdownFrame.Visible = true
+
+			dropdownFrame.Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)
+
+			
+
+			local expandedHeight = #options * optionHeight
+
+			local openTween = TweenService:Create(dropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, expandedHeight)})
+
+			
+
+			local newContainerHeight = collapsedHeight + expandedHeight + 10
+
+			local containerExpandTween = TweenService:Create(dropdownContainer, TweenInfo.new(0.2), {Size = UDim2.new(0.98, 0, 0, newContainerHeight)})
+
+			
+
+			openTween:Play()
+
+			containerExpandTween:Play()
+
+			isOpen = true
+
+		end
+
+	end)
+
+	
+
+	-- Close when clicking outside
+
+	game:GetService("UserInputService").InputBegan:Connect(function(input)
+
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+
+			local mousePos = input.Position
+
+			local guiInset = game:GetService("GuiService"):GetGuiInset()
+
+			local adjustedPos = Vector2.new(mousePos.X, mousePos.Y - guiInset.Y)
+
+			
+
+			if isOpen then
+
+				local boxPos = selectionBox.AbsolutePosition
+
+				local boxSize = selectionBox.AbsoluteSize
+
+				local dropPos = dropdownFrame.AbsolutePosition
+
+				local dropSize = dropdownFrame.AbsoluteSize
+
+				
+
+				local clickedInBox = (adjustedPos.X >= boxPos.X and adjustedPos.X <= boxPos.X + boxSize.X and 
+
+				                      adjustedPos.Y >= boxPos.Y and adjustedPos.Y <= boxPos.Y + boxSize.Y)
+
+				
+
+				local clickedInDrop = (adjustedPos.X >= dropPos.X and adjustedPos.X <= dropPos.X + dropSize.X and 
+
+				                       adjustedPos.Y >= dropPos.Y and adjustedPos.Y <= dropPos.Y + dropSize.Y)
+
+				
+
+				if not clickedInBox and not clickedInDrop then
+
+					local expandedHeight = #options * optionHeight
+
+					local closeTween = TweenService:Create(dropdownFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, selectionBox.AbsoluteSize.X, 0, 0)})
+
+					local containerShrinkTween = TweenService:Create(dropdownContainer, TweenInfo.new(0.2), {Size = UDim2.new(0.98, 0, 0, collapsedHeight)})
+
+					
+
+					closeTween:Play()
+
+					containerShrinkTween:Play()
+
+					
+
+					closeTween.Completed:Connect(function()
+
+						dropdownFrame.Visible = false
+
+						isOpen = false
+
+					end)
+
+				end
+
+			end
+
+		end
+
+	end)
+
+	
+
+	return dropdownContainer
+
+end
+
+	return Tab  -- Return Tab object
+
+end  -- Close CreateTab function
+
+return Window  -- Return Window object
+
+end  -- Close CreateWindow function
+
+-- MOVE CreateNotification HERE (before the final return)
+
+function Library:CreateNotification(text, duration)
+
+	local player = game.Players.LocalPlayer
+
+	duration = duration or 5
+
+	-- ScreenGui setup  
+
+	local gui = Instance.new("ScreenGui")  
+
+	gui.Name = "CustomNotification"  
+
+	gui.ResetOnSpawn = false  
+
+	gui.IgnoreGuiInset = true  
+
+	gui.Parent = player:WaitForChild("PlayerGui")  
+
+	-- Notification Frame  
+
+	local notifFrame = Instance.new("Frame")  
+
+	notifFrame.Name = "NotifFrame"  
+
+	notifFrame.Size = UDim2.new(0.6, 0, 0.11, 0)  
+
+	notifFrame.Position = UDim2.new(0.5, 0, 0.93, 0)  
+
+	notifFrame.AnchorPoint = Vector2.new(0.5, 0.5)  
+
+	notifFrame.BackgroundColor3 = Color3.new(1, 1, 1)  
+
+	notifFrame.BorderSizePixel = 0  
+
+	notifFrame.ClipsDescendants = true  
+
+	notifFrame.Parent = gui  
+
+	-- Scale animation  
+
+	local scale = Instance.new("UIScale")  
+
+	scale.Scale = 0  
+
+	scale.Parent = notifFrame  
+
+	-- Grey outline  
+
+	local stroke = Instance.new("UIStroke")  
+
+	stroke.Thickness = 1.5  
+
+	stroke.Color = Color3.fromRGB(100, 100, 100)  
+
+	stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border  
+
+	stroke.Parent = notifFrame  
+
+	-- Text Label  
+
+	local notifText = Instance.new("TextLabel")  
+
+	notifText.Size = UDim2.new(1, -20, 1, -10)  
+
+	notifText.Position = UDim2.new(0, 10, 0.3, 0)  
+
+	notifText.BackgroundTransparency = 1  
+
+	notifText.Text = text  
+
+	notifText.TextColor3 = Color3.new(0, 0, 0)  
+
+	notifText.Font = Enum.Font.Gotham  
+
+	notifText.TextSize = 22  
+
+	notifText.TextWrapped = true  
+
+	notifText.TextXAlignment = Enum.TextXAlignment.Left  
+
+	notifText.TextYAlignment = Enum.TextYAlignment.Top  
+
+	notifText.Parent = notifFrame  
+
+	-- Cooldown Line  
+
+	local cooldownLine = Instance.new("Frame")  
+
+	cooldownLine.Name = "CooldownLine"  
+
+	cooldownLine.BackgroundColor3 = Color3.new(0, 0, 0)  
+
+	cooldownLine.BorderSizePixel = 0  
+
+	cooldownLine.Position = UDim2.new(0, 0, 1, 0)  
+
+	cooldownLine.Size = UDim2.new(1, 0, 0, 4)  
+
+	cooldownLine.AnchorPoint = Vector2.new(0, 1)  
+
+	cooldownLine.Parent = notifFrame  
+
+	-- Tween grow in  
+
+	TweenService:Create(scale, TweenInfo.new(0.4, Enum.EasingStyle.Back), { Scale = 1 }):Play()  
+
+	-- Start cooldown after grow  
+
+	task.delay(0.4, function()  
+
+		local cooldownTween = TweenService:Create(  
+
+			cooldownLine,  
+
+			TweenInfo.new(duration, Enum.EasingStyle.Linear),  
+
+			{ Size = UDim2.new(0, 0, 0, 4) }  
+
+		)  
+
+		cooldownTween:Play()  
+
+		cooldownTween.Completed:Connect(function()  
+
+			local shrinkTween = TweenService:Create(  
+
+				scale,  
+
+				TweenInfo.new(0.4, Enum.EasingStyle.Quad),  
+
+				{ Scale = 0 }  
+
+			)  
+
+			shrinkTween:Play()  
+
+			shrinkTween.Completed:Connect(function()  
+
+				gui:Destroy()  
+
+			end)  
+
+		end)  
+
+	end)
+
+end
+
+-- ============================================
+-- CLEAN TAB STRUCTURE - ADD THIS BEFORE return Library
+-- ============================================
+
+-- ✅ CREATE WINDOW FIRST
+local Window = Library:CreateWindow("NoxiousVault")
+
+-- Check if player is owner
+local whitelist = {
+    "JayInsaneeee",
+    "NoxiousWyz"
+}
+
+local playerName = game.Players.LocalPlayer.Name
+local isOwner = false
+for _, name in ipairs(whitelist) do
+    if playerName == name then
+        isOwner = true
+        break
+    end
+end
+
+-- Only create Commands tab if user is owner
+if isOwner then
+    local mainTab = Window:CreateTab("Commands")
+    
+    -- (ALL your command code here - keep everything as-is)
+
+-- ============================================
+-- MEMBER SELECTION DROPDOWN
+-- ============================================
+local selectedMember = nil
+
+-- Get list of members who executed the script (from JSONBin)
+local function getAvailableMembers()
+	-- This will be populated from your whitelist script's member list
+	local members = {}
+	
+	-- Add all non-owner players as options
+	for _, player in pairs(game.Players:GetPlayers()) do
+		if player.Name ~= "JayInsaneeee" and player.Name ~= "NoxiousWyz" then
+			table.insert(members, player.Name)
+		end
+	end
+	
+	return members
+end
+
+mainTab:AddDropdownSingle("Select Member", getAvailableMembers(), nil, function(selected)
+	selectedMember = selected
+	Library:CreateNotification("Selected: " .. selected, 2)
+end)
+
+-- ============================================
+-- CHAT COMMANDS TOGGLE
+-- ============================================
+local chatCommandsEnabled = false
+
+mainTab:AddToggle("Enable Chat Commands", false, function(state)
+	chatCommandsEnabled = state
+	if state then
+		Library:CreateNotification("✅ Chat commands enabled! Type commands in Roblox chat.", 3)
+	else
+		Library:CreateNotification("❌ Chat commands disabled.", 3)
+	end
+end)
+
+-- ============================================
+-- HELPER FUNCTION TO SEND COMMANDS
+-- ============================================
+local function sendCommand(command)
+	if chatCommandsEnabled then
+		-- Send via Roblox chat
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(command, "All")
+	else
+		-- Send via chat anyway (members will still see it in their script)
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(command, "All")
+	end
+end
+
+-- ============================================
+-- ACTION 1 - ALL PLAYERS COMMANDS
+-- ============================================
+mainTab:AddSeparator("ACTION 1")
+
+mainTab:AddButton("Freeze All", function()
+	sendCommand("!freezeall")
+	Library:CreateNotification("Froze all members", 2)
+end)
+
+mainTab:AddButton("Unfreeze All", function()
+	sendCommand("!unfreezeall")
+	Library:CreateNotification("Unfroze all members", 2)
+end)
+
+mainTab:AddButton("Bring All", function()
+	sendCommand("!bringall")
+	Library:CreateNotification("Brought all members", 2)
+end)
+
+mainTab:AddButton("Dance All", function()
+	sendCommand("!danceall")
+	Library:CreateNotification("All members dancing", 2)
+end)
+
+mainTab:AddButton("Undance All", function()
+	sendCommand("!undanceall")
+	Library:CreateNotification("Stopped all dancing", 2)
+end)
+
+mainTab:AddButton("Follow All", function()
+	sendCommand("!followall")
+	Library:CreateNotification("All members following", 2)
+end)
+
+mainTab:AddButton("Unfollow All", function()
+	sendCommand("!unfollowall")
+	Library:CreateNotification("All stopped following", 2)
+end)
+
+mainTab:AddButton("Kill All", function()
+	sendCommand("!killall")
+	Library:CreateNotification("Killed all members", 2)
+end)
+
+mainTab:AddButton("Force Reset All", function()
+	sendCommand("!forceresetall")
+	Library:CreateNotification("Force reset all members", 2)
+end)
+
+mainTab:AddButton("Jump All", function()
+	sendCommand("!jumpall")
+	Library:CreateNotification("All members jumping", 2)
+end)
+
+mainTab:AddButton("Loop Jump All", function()
+	sendCommand("!loopjumpall")
+	Library:CreateNotification("All members loop jumping", 2)
+end)
+
+mainTab:AddButton("Stop Loop Jump All", function()
+	sendCommand("!unloopjumpall")
+	Library:CreateNotification("Stopped loop jump all", 2)
+end)
+
+mainTab:AddButton("Spin All", function()
+	sendCommand("!spinall")
+	Library:CreateNotification("All members spinning", 2)
+end)
+
+mainTab:AddButton("Unspin All", function()
+	sendCommand("!unspinall")
+	Library:CreateNotification("All stopped spinning", 2)
+end)
+
+mainTab:AddButton("Fling All", function()
+	sendCommand("!flingall")
+	Library:CreateNotification("Flung all members", 2)
+end)
+
+mainTab:AddButton("Sit All", function()
+	sendCommand("!sitall")
+	Library:CreateNotification("All members sitting", 2)
+end)
+
+-- ============================================
+-- ACTION 2 - TOGGLE COMMANDS (ON/OFF)
+-- ============================================
+mainTab:AddSeparator("ACTION 2")
+
+local freezeState = false
+mainTab:AddToggle("Freeze/Unfreeze", false, function(state)
+	freezeState = state
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	
+	if state then
+		sendCommand("!freeze " .. selectedMember)
+		Library:CreateNotification("Frozen " .. selectedMember, 2)
+	else
+		sendCommand("!unfreeze " .. selectedMember)
+		Library:CreateNotification("Unfrozen " .. selectedMember, 2)
+	end
+end)
+
+local loopKillState = false
+mainTab:AddToggle("Loop Kill", false, function(state)
+	loopKillState = state
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	
+	if state then
+		sendCommand("!loopkill " .. selectedMember)
+		Library:CreateNotification("Loop kill started on " .. selectedMember, 2)
+	else
+		sendCommand("!stoploopkill " .. selectedMember)
+		Library:CreateNotification("Loop kill stopped on " .. selectedMember, 2)
+	end
+end)
+
+local loopJumpState = false
+mainTab:AddToggle("Loop Jump", false, function(state)
+	loopJumpState = state
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	
+	if state then
+		sendCommand("!loopjump " .. selectedMember)
+		Library:CreateNotification("Loop jump started on " .. selectedMember, 2)
+	else
+		sendCommand("!unloopjump " .. selectedMember)
+		Library:CreateNotification("Loop jump stopped on " .. selectedMember, 2)
+	end
+end)
+
+local loopBringState = false
+mainTab:AddToggle("Loop Bring", false, function(state)
+	loopBringState = state
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	
+	if state then
+		sendCommand("!loopbring " .. selectedMember)
+		Library:CreateNotification("Loop bring started on " .. selectedMember, 2)
+	else
+		sendCommand("!unloopbring " .. selectedMember)
+		Library:CreateNotification("Loop bring stopped on " .. selectedMember, 2)
+	end
+end)
+
+local spinState = false
+mainTab:AddToggle("Spin", false, function(state)
+	spinState = state
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	
+	if state then
+		sendCommand("!spin " .. selectedMember)
+		Library:CreateNotification("Spinning " .. selectedMember, 2)
+	else
+		sendCommand("!unspin " .. selectedMember)
+		Library:CreateNotification("Stopped spinning " .. selectedMember, 2)
+	end
+end)
+
+local followState = false
+mainTab:AddToggle("Follow", false, function(state)
+	followState = state
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	
+	if state then
+		sendCommand("!follow " .. selectedMember)
+		Library:CreateNotification(selectedMember .. " is following", 2)
+	else
+		sendCommand("!unfollow " .. selectedMember)
+		Library:CreateNotification(selectedMember .. " stopped following", 2)
+	end
+end)
+
+local danceState = false
+mainTab:AddToggle("Dance", false, function(state)
+	danceState = state
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	
+	if state then
+		sendCommand("!dance " .. selectedMember)
+		Library:CreateNotification(selectedMember .. " is dancing", 2)
+	else
+		sendCommand("!undance " .. selectedMember)
+		Library:CreateNotification(selectedMember .. " stopped dancing", 2)
+	end
+end)
+
+local viewState = false
+mainTab:AddToggle("View", false, function(state)
+	viewState = state
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	
+	if state then
+		sendCommand("!view " .. selectedMember)
+		Library:CreateNotification("Viewing " .. selectedMember, 2)
+	else
+		sendCommand("!unview")
+		Library:CreateNotification("Stopped viewing", 2)
+	end
+end)
+
+-- ============================================
+-- ACTION 3 - ONE-TIME COMMANDS
+-- ============================================
+mainTab:AddSeparator("ACTION 3")
+
+mainTab:AddButton("Kick (1x)", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	sendCommand("!kick " .. selectedMember)
+	Library:CreateNotification("Kicked " .. selectedMember, 2)
+end)
+
+mainTab:AddButton("Jump (1x)", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	sendCommand("!jump " .. selectedMember)
+	Library:CreateNotification(selectedMember .. " jumped", 2)
+end)
+
+mainTab:AddButton("Bring (1x)", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	sendCommand("!bring " .. selectedMember)
+	Library:CreateNotification("Brought " .. selectedMember, 2)
+end)
+
+mainTab:AddButton("Sit (1x)", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	sendCommand("!sit " .. selectedMember)
+	Library:CreateNotification(selectedMember .. " is sitting", 2)
+end)
+
+mainTab:AddButton("Kill (1x)", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	sendCommand("!kill " .. selectedMember)
+	Library:CreateNotification("Killed " .. selectedMember, 2)
+end)
+
+mainTab:AddButton("Force Reset (1x)", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	sendCommand("!forcereset " .. selectedMember)
+	Library:CreateNotification("Force reset " .. selectedMember, 2)
+end)
+
+mainTab:AddButton("Reset (1x)", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	sendCommand("!reset " .. selectedMember)
+	Library:CreateNotification("Reset " .. selectedMember, 2)
+end)
+
+mainTab:AddButton("Fling (1x)", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	sendCommand("!fling " .. selectedMember)
+	Library:CreateNotification("Flung " .. selectedMember, 2)
+end)
+
+-- ============================================
+-- EXTRA COMMANDS
+-- ============================================
+mainTab:AddSeparator("EXTRA")
+
+mainTab:AddButton("Say Custom Message", function()
+	if not selectedMember then
+		Library:CreateNotification("⚠️ Select a member first!", 2)
+		return
+	end
+	-- You can customize this message
+	local message = "Hello from the owner!"
+	sendCommand("!say " .. selectedMember .. " " .. message)
+	Library:CreateNotification("Made " .. selectedMember .. " say message", 2)
+end)
+
+-- Info box at the bottom
+mainTab:AddInfo("MORE ACTIONS TO TROLL PEOPLE!")
+
+-- ============================================
+-- END OF TAB STRUCTURE
+-- ============================================
+-- NOW return Library at the very end
+return Library
